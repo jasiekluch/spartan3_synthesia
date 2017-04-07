@@ -46,3 +46,4 @@
 *.csv
 sch2HdlBatchFile
 *.bit
+*.xmsgs
