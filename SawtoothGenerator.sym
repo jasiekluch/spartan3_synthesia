@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symbol version="7" name="SawtoothGenerator">
+    <symboltype>BLOCK</symboltype>
+    <timestamp>2017-5-3T11:43:33</timestamp>
+    <pin polarity="Input" x="0" y="-144" name="Note(3:0)" />
+    <pin polarity="Input" x="0" y="-80" name="Reset" />
+    <pin polarity="Input" x="0" y="-32" name="Clk_50MHz" />
+    <pin polarity="Output" x="384" y="-128" name="DATA(11:0)" />
+    <pin polarity="Output" x="384" y="-64" name="T_sync" />
+    <graph>
+        <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="192" y="-200" type="symbol" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-144" type="pin Note(3:0)" />
+        <rect width="64" x="0" y="-156" height="24" />
+        <line x2="0" y1="-144" y2="-144" x1="64" />
+        <rect width="256" x="64" y="-192" height="192" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-80" type="pin Reset" />
+        <line x2="0" y1="-80" y2="-80" x1="64" />
+        <line x2="0" y1="-32" y2="-32" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-32" type="pin Clk_50MHz" />
+        <rect width="64" x="320" y="-140" height="24" />
+        <line x2="384" y1="-128" y2="-128" x1="320" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="312" y="-128" type="pin DATA(11:0)" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="312" y="-64" type="pin T_sync" />
+        <line x2="384" y1="-64" y2="-64" x1="320" />
+    </graph>
+</symbol>

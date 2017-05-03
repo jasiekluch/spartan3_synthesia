@@ -31,14 +31,14 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity VGA_Driver is
     Port ( RGB : in  STD_LOGIC_VECTOR (2 downto 0);
-           clk_50 : in  STD_LOGIC;
+           Clk_50MHz : in  STD_LOGIC;
            R : out  STD_LOGIC;
            G : out  STD_LOGIC;
            B : out  STD_LOGIC;
-           hs_out : out  STD_LOGIC;
-           vs_out : out  STD_LOGIC;
-           x : out  STD_LOGIC_VECTOR (9 downto 0);
-           y : out  STD_LOGIC_VECTOR (9 downto 0));
+           H_sync : out  STD_LOGIC;
+           V_sync : out  STD_LOGIC;
+           X : out  STD_LOGIC_VECTOR (9 downto 0);
+           Y : out  STD_LOGIC_VECTOR (9 downto 0));
 end VGA_Driver;
 
 architecture Behavioral of VGA_Driver is
@@ -68,38 +68,26 @@ signal screenEnabled : boolean;
 
 begin
 
--- Generowanie zegara o czestotliwosci 25MHz
---	clk_divider : process(clk_50)
---	begin
---		if clk_50'event and clk_50 = '1' then
---			if clk_25 = '0' then
---				clk_25 <= '1';
---			else
---				clk_25 <= '0';
---			end if;
---		end if;
---	end process;
-
 -- synchronizacja okna	
 	
-	screen_sync: process(clk_50,hs,vs)
+	screen_sync: process(Clk_50MHz,hs,vs)
 	begin
 
 -- ustawianie sygnalu synchronizacji pionowej
 		if hs > 0 and hs <= hpw then
-			hs_out <= '0';
+			H_sync <= '0';
 		else
-			hs_out <= '1';
+			H_sync <= '1';
 		end if;
 -- ustawianie sygnalu synchronizacji poziomej	
 		if vs > 0 and vs <= vpw then
-			vs_out <= '0';
+			V_sync <= '0';
 		else
-			vs_out <= '1';
+			V_sync <= '1';
 		end if;	
 
 -- inkrementacja linii pionowej i poziomej
-		if clk_50'event and clk_50 = '1' then	
+		if rising_edge(Clk_50MHz) then	
 			if hs = 1040 then
 				vs <= vs + 1;
 				hs <= 0;
@@ -116,18 +104,18 @@ begin
 	begin
 -- obliczanie zwracanej wartosci x oraz ustawianie flagi wyswietlania
 		if hs >= (hpw + hbp) and hs < (hpixels - hfp) then
-			x <= std_logic_vector(to_unsigned(hs - (hpw + hbp),10));
+			X <= std_logic_vector(to_unsigned(hs - (hpw + hbp),10));
 			screenEnabled <= true;
 		else
-			x <= std_logic_vector(to_unsigned(maxWidth,10));
+			X <= std_logic_vector(to_unsigned(maxWidth,10));
 			screenEnabled <= false;
 		end if;
 -- obliczanie zwracanej wartosci y oraz ustawianie flagi wyswietlania
 		if vs >= (vpw + vbp) and vs < (vlines - vfp) then
-			y <= std_logic_vector(to_unsigned(vs - (vpw + vbp),10));
+			Y <= std_logic_vector(to_unsigned(vs - (vpw + vbp),10));
 			screenEnabled <= true;
 		else 
-			y <= std_logic_vector(to_unsigned(maxHeight,10));
+			Y <= std_logic_vector(to_unsigned(maxHeight,10));
 			screenEnabled <= false;
 		end if;
 	end process;
