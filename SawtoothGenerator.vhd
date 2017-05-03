@@ -40,7 +40,7 @@ architecture Behavioral of SawtoothGenerator is
 --	-- dla systemu rownomiernie temperowanego, A4 = 440Hz
 --	constant pitch : notes := 
 --					(	   1,          -- brak dzwieku
---                  2985, 			-- c4
+--                2985, 			-- c4
 --						2817, 			-- cis/des4
 --						2659, 			-- d4 
 --						2510, 			-- dis/es4 
@@ -59,19 +59,19 @@ architecture Behavioral of SawtoothGenerator is
 	-- dla systemu rownomiernie temperowanego, A4 = 440Hz
 	constant pitch : notes := 
 					(	   1,          -- brak dzwieku
-                  2985, 			-- c4
-						2817, 			-- cis/des4
-						2659, 			-- d4 
-						2510, 			-- dis/es4 
-						2369, 			-- e4 
-						2236, 			-- f4 
-						2111, 			-- fis/ges4 
-						1992, 			-- g4 
-						1880, 			-- gis/as4 
-						1775, 			-- a4 
-						1675, 			-- ais/b4 
-						1581, 			-- h4 
-						1492); 			-- c5
+                  1492, 			-- c5
+						1408, 			-- cis/des5
+						1329, 			-- d5 
+						1254, 			-- dis/es5 
+						1184, 			-- e5 
+						1118, 			-- f5 
+						1054, 			-- fis/ges5 
+						 995, 			-- g5 
+						 939, 			-- gis/as5 
+						 887, 			-- a5 
+						 837, 			-- ais/b5 
+						 790, 			-- h5 
+						 745); 			-- c6
 	
 	
 begin
