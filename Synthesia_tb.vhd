@@ -45,7 +45,8 @@ ARCHITECTURE behavior OF Synthesia_tb IS
          Reset : IN  std_logic;
          x : IN  std_logic_vector(9 downto 0);
          y : IN  std_logic_vector(9 downto 0);
-         RGB : OUT  std_logic_vector(2 downto 0)
+         RGB : OUT  std_logic_vector(2 downto 0);
+         NoteOut : OUT std_logic_vector(3 downto 0)
         );
     END COMPONENT;
     
@@ -58,6 +59,7 @@ ARCHITECTURE behavior OF Synthesia_tb IS
 
  	--Outputs
    signal RGB : std_logic_vector(2 downto 0);
+   signal NoteOut : std_logic_vector(3 downto 0);
 
    -- Clock period definitions
    constant Clk_50MHz_period : time := 20 ns;
@@ -74,7 +76,8 @@ BEGIN
           Reset => Reset,
           x => x,
           y => y,
-          RGB => RGB
+          RGB => RGB,
+          NoteOut => NoteOut
         );
 
    -- Stimulus process

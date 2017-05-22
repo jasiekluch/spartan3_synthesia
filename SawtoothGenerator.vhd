@@ -86,7 +86,7 @@ begin
          tickCounter <= 0;
          ts <= '0';
 		elsif (rising_edge(Clk_50MHz) and index /= 0) then
-         if (tickCounter = pitch(index)) then
+         if (tickCounter >= pitch(index)) then
             tickCounter <= 0;
 				ts <= '1';
          else
