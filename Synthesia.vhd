@@ -32,9 +32,11 @@ use IEEE.NUMERIC_STD.ALL;
 entity Synthesia is
     Port ( Clk_50MHz : in  STD_LOGIC;
 			  Reset : in  STD_LOGIC;
+           Pause : in STD_LOGIC;
            x : in  STD_LOGIC_VECTOR (9 downto 0);
            y : in  STD_LOGIC_VECTOR (9 downto 0);
-           RGB : out  STD_LOGIC_VECTOR (2 downto 0));
+           RGB : out  STD_LOGIC_VECTOR (2 downto 0);
+           NoteOut : out STD_LOGIC_VECTOR (3 downto 0));
 end Synthesia;
 
 architecture Behavioral of Synthesia is
@@ -56,7 +58,7 @@ architecture Behavioral of Synthesia is
    
    -- tablica pozycji poszczegolnych klawiszy					
 	constant keys_position : keys_position1 := 
-					(  -62,	-- pauza		0
+					(  -62,	   -- pauza		0
 						0,		-- c1			1
                   61,	-- cis1		2
                   122,	-- d1			3
@@ -72,33 +74,35 @@ architecture Behavioral of Synthesia is
                   732); -- c2			13
                   
    constant max : integer := 648;
-   type note is array (0 to 2) of integer range -72 - max to 475 + max;
+   type note is array (0 to 2) of integer;
    
    --constant notes_count: integer := 15;
 	-- Fly me to the moon
-   constant notes_count: integer := 46;
+   constant notes_count: integer := 41;
+   
+   signal should_play : STD_LOGIC;
    
    type notes is array (0 to notes_count - 1) of note;
 	
 	-- Fly me to the moon
-	signal keys_to_display2: notes :=
-					(  (13, -72, 108), (12, -72, 36), (10, -72, 72), 			
-						(8, -72, 36), (6, -72, 108), (8, -72, 108), 		
-						(10, -72, 72), (13, -72, 72),(12, -72, 108), 			
-						(10, -72, 36),(8, -72, 72),(6, -72, 36),
-                  (5, -72, 324), (10, -72, 108),(8, -72, 36),
-						(6, -72, 72), (5, -72, 36), (3, -72, 108), 				
-						(5, -72, 108), (6, -72, 72),(10, -72, 72), 						
-						(9, -72, 108),(6, -72, 36),(5, -72, 72),
-                  (3, -72, 36), (1, -72, 324),(0, -72, 72),
+	signal keys_to_display: notes :=
+					(  (13, -72, 54), (12, -72, 18), (10, -72, 36), 			
+						(8, -72, 18), (6, -72, 54), (8, -72, 54), 		
+						(10, -72, 36), (13, -72, 36),(12, -72, 54), 			
+						(10, -72, 18),(8, -72, 36),(6, -72, 18),
+                  (5, -72, 162), (10, -72, 54),(8, -72, 18),
+						(6, -72, 36), (5, -72, 18), (3, -72, 54), 				
+						(5, -72, 54), (6, -72, 36),(10, -72, 36), 						
+						(9, -72, 54),(6, -72, 18),(5, -72, 36),
+                  (3, -72, 18), (1, -72, 162),(0, -72, 36),
 						
-						(2, -72, 72), (3, -72, 36),(10, -72, 36), 			
-						(0, -72, 30),(10, -72, 252),(13, -72, 144),
+						(2, -72, 36), (3, -72, 18),(10, -72, 18), 			
+						(0, -72, 30),(10, -72, 126),(13, -72, 72),
 						
-                  (12, -72, 72), (8, -72, 432),(1, -72, 108),
+                  (12, -72, 36), (8, -72, 216),(1, -72, 54),
 						
-						(6, -72, 288), (10, -72, 144), (8, -72, 72),
-						(6, -72, 108), (5, -72, 324)); 	
+						(6, -72, 144), (10, -72, 72), (8, -72, 36),
+						(6, -72, 54), (5, -72, 162)); 	
    
 --   signal keys_to_display : notes :=
 --					(  (0, -72, 72), 			
@@ -123,7 +127,7 @@ begin
 
 	x_in <= to_integer(unsigned(x));
 	y_in <= to_integer(unsigned(y));
-
+  
 	
 
 -- rysowanie
@@ -133,17 +137,26 @@ begin
          if (x_in > 0 and x_in < 793) then
             if (y_in >= bar_position and y_in < bar_position + bar_height) then
                RGB <= "111";
+               should_play <= '0';
             else
                RGB <= "000";
+               should_play <= '0';
             end if;
          else
             RGB <= "000";
+            should_play <= '0';
          end if;
        
          for i in 0 to notes_count - 1 loop
             if (x_in > keys_position(keys_to_display(i)(0)) and x_in < keys_position(keys_to_display(i)(0)) + width) then
                if (y_in > keys_to_display(i)(1) and y_in < keys_to_display(i)(1) + keys_to_display(i)(2)) then 
-                  RGB <= "010";
+                  if (keys_to_display(i)(1) + keys_to_display(i)(2) >= bar_position ) then
+                     RGB <= "100"; 
+                     should_play <= '1';
+                   else
+                     RGB <= "010";
+                     should_play <= '0';
+                  end if;                                   
                end if;
             end if; 
          end loop; 
@@ -151,34 +164,93 @@ begin
          if (x_in > 0 and x_in < 793) then
             if (y_in >= bar_position and y_in < bar_position + bar_height) then
                RGB <= "111";
+               should_play <= '0';
             end if;
          end if;
          
          if (y_in >= bar_position + bar_height) then
             RGB <= "000";
+            should_play <= '0';
          end if;
       end if;
 	end process;
    
    move : process(Clk_50MHz)
    begin
-      if rising_edge(Clk_50MHz) then
-         if (y_in = bar_position and x_in = 0) then
-            
-            keys_to_display(0)(1) <= keys_to_display(0)(1) + 1;
-            if (keys_to_display(notes_count-1)(1) > 0) then
-               keys_to_display(0)(1) <= keys_to_display(notes_count-1)(1) - keys_to_display(notes_count-1)(2) + 1;
-            end if;
-                           
-            for i in 1 to notes_count - 1 loop
-                  
-               keys_to_display(i)(1) <= keys_to_display(i-1)(1) - keys_to_display(i)(2) + 1;
-           
-            
+      if reset = '1' then
+            keys_to_display(0)(1) <= -72;
+      elsif rising_edge(Clk_50MHz) and Pause = '0' then
+         if (y_in = bar_position and x_in = 0) then  
+            keys_to_display(0)(1) <= keys_to_display(0)(1) + 1;                     
+            for i in 1 to notes_count - 1 loop                 
+               keys_to_display(i)(1) <= keys_to_display(i-1)(1) - keys_to_display(i)(2) + 1;           
             end loop;
          end if;   
       end if;
    end process; 
+   
+   play : process(Clk_50MHz)
+   begin
+      if rising_edge(Clk_50MHz) then
+         if (y_in = bar_position - 1) then
+            if (x_in > keys_position(1) and x_in <= keys_position(2)) then
+               if (should_play = '1') then
+                  NoteOut <= "0001";
+               end if;
+            elsif (x_in > keys_position(2) and x_in <= keys_position(3)) then
+               if (should_play = '1') then
+                  NoteOut <= "0010";
+               end if;
+            elsif (x_in > keys_position(3) and x_in <= keys_position(4)) then
+               if (should_play = '1') then
+                  NoteOut <= "0011";
+               end if;
+            elsif (x_in > keys_position(4) and x_in <= keys_position(5)) then
+               if (should_play = '1') then
+                  NoteOut <= "0100";
+               end if;
+            elsif (x_in > keys_position(5) and x_in <= keys_position(6)) then
+               if (should_play = '1') then
+                  NoteOut <= "0101";
+               end if;
+            elsif (x_in > keys_position(6) and x_in <= keys_position(7)) then
+               if (should_play = '1') then
+                  NoteOut <= "0110";
+               end if;
+            elsif (x_in > keys_position(7) and x_in <= keys_position(8)) then
+               if (should_play = '1') then
+                  NoteOut <= "0111";
+               end if;
+            elsif (x_in > keys_position(8) and x_in <= keys_position(9)) then
+               if (should_play = '1') then
+                  NoteOut <= "1000";
+               end if;
+            elsif (x_in > keys_position(9) and x_in <= keys_position(10)) then
+               if (should_play = '1') then
+                  NoteOut <= "1001";
+               end if;
+            elsif (x_in > keys_position(10) and x_in <= keys_position(11)) then
+               if (should_play = '1') then
+                  NoteOut <= "1010";
+               end if;
+            elsif (x_in > keys_position(11) and x_in <= keys_position(12)) then
+               if (should_play = '1') then
+                  NoteOut <= "1011";
+               end if;
+            elsif (x_in > keys_position(12) and x_in <= keys_position(13)) then
+               if (should_play = '1') then
+                  NoteOut <= "1100";
+               end if;
+            elsif (x_in >= keys_position(13)) then
+               if (should_play = '1') then
+                  NoteOut <= "1101";
+               end if;
+            else
+               NoteOut <= "0000";
+            end if;               
+         end if;
+      end if;
+   end process;
 
 end Behavioral;
 
