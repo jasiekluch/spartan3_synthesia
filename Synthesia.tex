@@ -1,17 +1,43 @@
-\documentclass{article}
+\documentclass[a4paper]{report}
 
 % Polish letters packages (for OS X)
 \usepackage[utf8]{inputenc}
 \usepackage{polski}
 \usepackage[polish]{babel}
 
-\title{Układy Cyfrowe i Systemy Wbudowane 2\\Projekt Synthesia}
-\date{2017-05-21}
-\author{Jan Luch\\Dawid Aksamski}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{lmodern}
+\usepackage[a4paper, margin=1in]{geometry}
+% do robienia tabel które mieszczą się na stronie (łamanie linii w kolumnach tabeli)
+\usepackage{tabulary}
+% do wrzucania obrazów
+\usepackage{graphicx}
+% ścieżka do folderu z plikami graficznymi
+\graphicspath{{./images/}}
+% do opisu tabel i rysunków
+\usepackage{caption}
+\captionsetup[table]{name=Tabela}
+% do tabel żeby robić kreski (toprule, bottomrule itp)
+\usepackage{booktabs}
+% do kolorowania wierszy w tabeli
+\usepackage{color, colortbl}
+\definecolor{Gray}{gray}{0.75}
+% do tworzenia własnych styli formatowania komórek tabel
+\usepackage{array}
+\newcolumntype{X}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+% do schowania napisu rozdzial n
+\usepackage{titlesec} 
+\titleformat{\chapter}[display]{\normalfont\bfseries}{}{0pt}{\Huge}
+
+\title{\huge Układy Cyfrowe i Systemy Wbudowane 2\\Projekt Synthesia}
+\date{} % pusta data
+\author{Jan Luch\hspace{42pt} 218150  \\Dawid Aksamski\hspace{5pt} 218150}
 
 
 \begin{document}
 
+\frenchspacing
 \pagenumbering{gobble}
 \maketitle
 \newpage
@@ -21,42 +47,42 @@
 
 \pagenumbering{arabic}
 
-\section{Wstęp}
-	\subsection{Cel i zakres}
-	\subsection{Sprzęt}
-	\subsection{Protokoły}
-	\subsection{Interfejsy}
-	\subsection{Algorytmy}
+\chapter{Wstęp}
+	\section{Cel i zakres}
+	\section{Sprzęt}
+	\section{Protokoły}
+	\section{Interfejsy}
+	\section{Algorytmy}
 
-\section{Projekt}
-	\subsection{Hierarchia}
+\chapter{Projekt}
+	\section{Hierarchia}
 	Krótka proza
-		\subsubsection{Schemat}
-		\subsubsection{Submoduły}
+		\subsection{Schemat}
+		\subsection{Submoduły}
 		
-\section{Moduły}
-	\subsection{Generator Dźwięku}
-		\subsubsection{Symbol}
-		\subsubsection{Porty}
-		\subsubsection{Najważniejsze sygnały i procesy}
-		\subsubsection{FSM}
+\chapter{Moduły}
+	\section{Generator Dźwięku}
+		\subsection{Symbol}
+		\subsection{Porty}
+		\subsection{Najważniejsze sygnały i procesy}
+		\subsection{FSM}
 		Graf i opis kodu
-		\subsubsection{Symulacja}
-	\subsection{VGA Driver}
-	\subsection{Synthesia}
+		\subsection{Symulacja}
+	\section{VGA Driver}
+	\section{Synthesia}
 	
-\section{Implementacja}
-	\subsection{Rozmiar}
+\chapter{Implementacja}
+	\section{Rozmiar}
 	LUT, BRAM
-	\subsection{fmax}
-	\subsection{Podręcznik użytkowania urządzenia}
+	\section{fmax}
+	\section{Podręcznik użytkowania urządzenia}
 	(Zdjęcia)
 	
-\section{Podsumowanie}
-	\subsection{Ocena krytyczna}	
-	\subsection{Kierunki dalszych prac}
+\chapter{Podsumowanie}
+	\section{Ocena krytyczna}	
+	\section{Kierunki dalszych prac}
 	
-\section{Literatura}
+\chapter{Literatura}
 
 \begin{figure}
 	\caption{Sample figure}
