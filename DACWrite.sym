@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="DACWrite">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2017-5-3T11:39:27</timestamp>
+    <timestamp>2017-5-27T10:4:41</timestamp>
     <pin polarity="Input" x="0" y="32" name="Reset" />
     <pin polarity="Input" x="448" y="-480" name="SPI_MISO" />
     <pin polarity="Output" x="448" y="-288" name="DAC_CLR" />
@@ -17,9 +17,9 @@
     <pin polarity="Input" x="0" y="96" name="Clk_50MHz" />
     <pin polarity="Input" x="0" y="160" name="Clk_Sys" />
     <pin polarity="Input" x="0" y="-544" name="Cmd(3:0)" />
-    <pin polarity="Input" x="0" y="-432" name="Addr(3:0)" />
     <pin polarity="Input" x="0" y="-240" name="DATA(11:0)" />
     <pin polarity="Input" x="0" y="-176" name="Start" />
+    <pin polarity="Input" x="0" y="-432" name="Addr(3:0)" />
     <graph>
         <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="224" y="-584" type="symbol" />
         <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="32" type="pin Reset" />
