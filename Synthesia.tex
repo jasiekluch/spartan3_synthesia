@@ -93,7 +93,7 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 		\begin{figure}[h!]
 			\centering
 			\includegraphics{hierarchy.png}
-			\caption{Hierarchia źródeł projektu}
+			\caption{Hierarchia plików źródłowych projektu}
 		\end{figure}
 				
 		\begin{landscape}
@@ -101,7 +101,7 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 				\begin{figure}[h!]
 					\centering
 					\includegraphics[width=1.1\textwidth]{schemat.png}
-					\caption{Schemat projektu}
+					\caption{Schemat systemu}
 				\end{figure}
 		\end{landscape}
 
@@ -113,6 +113,7 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 				\includegraphics{sawtoothgenerator2.png}
 				\caption{Moduł generujący falę piłokształtną}
 			\end{figure}
+			\vspace{15pt}
 		\subsection{Porty}
 		{\Large Wejścia:}
 			\begin{itemize}	 
@@ -125,11 +126,12 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 				\item \textbf{DATA} - wektor w zakresie od 0 do 4032 przesylany do modułu DAC\_Write
 				\item \textbf{T\_sync} - sygnał startu przesyłania
 			\end{itemize}
+			\newpage
 		\subsection{Najważniejsze sygnały i procesy}
 		{\Large Sygnały:}
 			\begin{itemize}
-				\item \textbf{counter} - licznik pojedynczego przebiegu fali (jeden \"ząb\" piły
-				\item \textbf{tickCounter} - lcznik dzielący częstotliwość wejściową
+				\item \textbf{counter} - licznik pojedynczego przebiegu fali (jeden $"$ząb$"$ piły)
+				\item \textbf{tickCounter} - licznik dzielący częstotliwość wejściową
 				\item \textbf{ts} - sygnał startu przesyłania
 				\item \textbf{index} - numer elementu tablicy zawierającej granice licznika dla poszczególnych częstotliwości dźwięku
 				\item \textbf{pitch} - tablica typu \textbf{notes} zawierająca granice licznika dla dźwięków od C4 do C5 dla systemu równomiernie temperowanego, A4 = 440Hz
@@ -151,7 +153,7 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 					\includegraphics[width=1.6\textwidth]{sawtooth_generator_symulacja2.png}
 					\caption{Symulacja modułu SawtoothGenerator}
 				\end{figure}
-\justify Symulacja pokazuje zmianę zmiennej DATA polegającą na inkrementacji najstarszych 6 bitów wektora. Po osiągnięciu wartości maksymalnej - 4032,\\ licznik jest zerowany. Wraz ze zmianą wartości wektora, generowany jest impuls T\_sync.
+\justify Symulacja pokazuje zmianę zmiennej DATA polegającą na inkrementacji 6 najstarszych bitów wektora. Po osiągnięciu wartości maksymalnej - 4032,\\ licznik jest zerowany. Wraz ze zmianą wartości wektora generowany jest impuls T\_sync.
 		\end{landscape}
 		
 		\newpage
@@ -199,15 +201,15 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 			\end{itemize}
 			{\Large Procesy:}
 			\begin{itemize}
-				\item Proces ten odpowiedzialny jest za ustawianie sygnałów synchronizacji poziomej oraz pionowej podczas gdy działo elektronowe
+				\item Proces odpowiedzialny za ustawianie sygnałów synchronizacji poziomej oraz pionowej gdy działo elektronowe
 				znajduje się w polu ekranu \\
 					\lstinputlisting[language=VHDL, firstline=73, lastline=101,frame=single,tabsize=2]{VGA_Driver.vhd}
-				\item Proces ten odpowiada za ustawienie sygnałów wyjściowych \textbf{X} i \textbf{Y} mówiących o położeniu działa elektronowego
-				w danym momencie. Drugim zadaniem procesu jest ustawienie zmiennej boolowskiej  \textbf{screenEnabled}, która ma mówić o tym czy
+				\item Proces odpowiedzialny za ustawienie sygnałów wyjściowych \textbf{X} i \textbf{Y}, mówiących o położeniu działa elektronowego
+				w danym momencie. Ustawia on również zmienną boolowską \textbf{screenEnabled}, mówiącą o tym czy
 				należy ustawić sygnał na portach \textbf{R}, \textbf{G} i \textbf{B}\\
 					\lstinputlisting[language=VHDL, firstline=103, lastline=121,frame=single,tabsize=2]{VGA_Driver.vhd}
-				\item Proces ustawia sygnały wyjściowe \textbf{R}, \textbf{G} i \textbf{B} na odpowiednie wartości z wektora wejściowego \textbf{RGB}
-				jeżeli działo elektronowe znajduje się w obszarze ekranu oraz \textbf{'0'} w przeciwnym wypadku.\\
+				\item Proces ustawiający na wyjściach \textbf{R}, \textbf{G} i \textbf{B} odpowiednie wartości z wektora wejściowego \textbf{RGB},
+				gdy działo elektronowe znajduje się w obszarze ekranu lub \textbf{'0'} w przeciwnym wypadku.\\
 					\lstinputlisting[language=VHDL, firstline=124, lastline=135,frame=single,tabsize=2]{VGA_Driver.vhd}
 			\end{itemize}			
 			
@@ -219,11 +221,11 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 					\caption{Symulacja modułu VGA\_Driver}
 				\end{figure}
 			\justify
-            Na symulacji ukazano jak szybko zmienia się wektor wyjściowy \textbf{X} oraz jak długo otrzymuje on wartość \textbf{800} co związane jest
+            Na symulacji można zauważyć jak szybko zmienia się wektor wyjściowy \textbf{X} oraz jak długo otrzymuje on wartość \textbf{800} co związane jest
             z czasem ustawienia się działa elektronowego w nowej linii. Ponadto widać na niej, że wartość sygnału wyjściowego \textbf{Y} zostaje
             zwiększona za każdym razem kiedy sygnał wyjściowy \textbf{X} osiąga swoją maksymalną wartość, czyli \textbf{800}. Tak samo dzieje się z
-            sygnałem wyjściowym \textbf{Y} gdy osiągnie on swoją maksymalną wartość. Należy pamiętać, że po każdym osiągnięciu wartości maksymalnych
-            przez sygnały wyjściowe \textbf{X} i \textbf{Y} następuje ustawienie działa elektronowego co trwa ustaloną długość czasu.
+            sygnałem wyjściowym \textbf{Y} gdy osiągnie on swoją maksymalną wartość. Należy pamiętać, \\że po każdym osiągnięciu wartości maksymalnych
+            przez sygnały wyjściowe \textbf{X} i \textbf{Y} następuje ustawienie się działa elektronowego co trwa ustaloną długość czasu.
 		\end{landscape}
 		
 	\newpage
@@ -232,14 +234,14 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 			\begin{figure}[h!]
 				\centering
 				\includegraphics{switch2.png}
-				\caption{Moduł Switch}
+				\caption{Moduł sterujący trybem pracy systemu}
 			\end{figure}
 			
 		\subsection{Porty}
 			{\Large Wejścia:}
 			\begin{itemize}	 
 				\item \textbf{KeyNote} - wektor w zakresie od 0 do 13 odpowiadający numerowi przychodzącej nuty z modułu klawiatury
-				\item \textbf{KeyEN} - ustawianie trybu w jakim ma działać urządzeni(\textbf{1} - klawiatura, \textbf{0} - pozytywka)
+				\item \textbf{KeyEN} - ustawianie trybu w jakim ma działać urządzenie (\textbf{1} - klawiatura, \textbf{0} - pozytywka)
 				\item \textbf{RomNote} - wektor w zakresie od 0 do 13 odpowiadający numerowi przychodzącej nuty z modułu pozytywki
 			\end{itemize}
 			{\Large Wyjścia:}
@@ -265,8 +267,8 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 					\caption{Symulacja modułu Switch}
 				\end{figure}
 			\justify
-            Na symulacji widać jak w zależności od sygnału \textbf{KeyEN} podawany jest sygnał na wyjście Note. 
-            Jest to \textbf{RomNote} jeśli \textbf{KeyEN = '0'} lub \textbf{KeyNote} jeśli \textbf{KeyEN = '1'}.
+            Na symulacji widać jak w zależności od sygnału \textbf{KeyEN} podawany jest na wyjście odpowiedni rodzaj sygnału Note. 
+            \textbf{RomNote} jeśli \textbf{KeyEN = '0'} lub \textbf{KeyNote} jeśli \textbf{KeyEN = '1'}.
             Ponadto, jeżeli sygnał \textbf{KeyEN = '1'}, to sygnał \textbf{Pause = '1}' w celu zatrzymania animacji pozytywki.
 		\end{landscape}
 		
@@ -281,22 +283,23 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 			{\Large Wejścia:}
 			\begin{itemize}	 
 				\item \textbf{DO} - wektor w zakresie od 0 do 255 zawierający kod skaningowy wciśniętego klawisza
-				\item \textbf{F0} - sygnał informujący o wyciśnięciu klawisza
+				\item \textbf{F0} - sygnał informujący o zwolnieniu klawisza
 				\item \textbf{DO\_Rdy} - sygnał informujący o gotowości przesłaniu kodu wciśniętego klawisza
 				\item \textbf{Reset} - sygnał resetu
 				\item \textbf{Clk\_50MHz} - sygnał zegarowy
 			\end{itemize}
 			{\Large Wyjścia:}
 			\begin{itemize} 
-				\item \textbf{Note} - wektor w zakresie od 0 do 13 wysyłający numer klawisza, którego dźwięk ma być w danym momencie grany
+				\item \textbf{Note} - wektor w zakresie od 0 do 13 wysyłający numer klawisza, którego dźwięk ma zostać \\odtworzony
 			\end{itemize}
 		\subsection{Najważniejsze sygnały i procesy}
 			{\Large Sygnały:}
 			\begin{itemize}
 				\item \textbf{input} - sygnał odpowiedzialny za zapamiętanie wektora sygnału wejściowego DO 
-				w celu jego przechowywania, aż do momentu nadejścia sygnału wyciśnięcia klawisza
-				\item \textbf{output} - sygnał wyjściowy przechowujący numer klawisza jakiego dźwięk w danej chwili ma być grany
+				w celu jego przechowywania, aż do momentu nadejścia sygnału zwolnienia klawisza
+				\item \textbf{output} - sygnał wyjściowy przechowujący numer klawisza, którego dźwięk w danej chwili ma zostać odtworzony
 			\end{itemize}
+			\newpage
 			{\Large Procesy:}
 			\begin{itemize}
 			\item Proces odpowiedzialny za ustawienie sygnału wyjściowego w zależności od wciśniętego w danej chwili klawisza klawiatury\\
@@ -312,8 +315,8 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 				\end{figure}
 			\justify
             Symulacja pokazuje jak sygnał \textbf{Note} zostaje ustawiony na zadaną wartość po otrzymaniu przez moduł sygnału \textbf{DO\_Rdy}
-            w zależności od tego jaki klawisz został wciśnięty(sygnał \textbf{DO} zawiera jego kod skaningowy). Za moment można zauważyć, że 
-            sygnał \textbf{Note} zostaje ustawiony na \textbf{0}, po otrzymaniu przez moduł sygnału wyciśnięcia klawisza(sygnał \textbf{F0}).
+            w zależności od tego jaki klawisz został wciśnięty(sygnał \textbf{DO} zawiera jego kod skaningowy). Chwilę później 
+            sygnał \textbf{Note} zostaje ustawiony na \textbf{0}, po otrzymaniu przez moduł sygnału zwolnienia klawisza(sygnał \textbf{F0}).
 		\end{landscape}
 		
 		\newpage
@@ -344,14 +347,17 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 				\item \textbf{should\_play} - sygnał typu STD\_LOGIC, przechowujący informację o tym, czy należy odtwarzać melodię z syntezatora
 				\item \textbf{keys\_to\_display} - tablica elementów typu note - tablica 3 integerów - przechowujących kolejno: numer nuty, pozycję wertykalną graficznej reprezentacji dźwięku, wysokość graficznej reprezentacji dźwięku, jednocześnie odpowiadającą długości jego trwania
 			\end{itemize}
+			\newpage
 		{\Large Procesy:}
 			\begin{itemize}
-			\item Proces odpowiedzialny rysowanie graficznej reprezentacji dźwięków na ekranie\\
-						\lstinputlisting[language=VHDL, firstline=134, lastline=180,frame=single,tabsize=2]{Synthesia.vhd}
+			\item Proces odpowiedzialny za rysowanie graficznej reprezentacji dźwięków na ekranie\\
+						\lstinputlisting[language=VHDL, firstline=134, lastline=181,frame=single,tabsize=2]{Synthesia.vhd}
+						\newpage
 			\item Proces odpowiedzialny za animowanie graficznej reprezentacji melodii\\
-									\lstinputlisting[language=VHDL, firstline=182, lastline=194,frame=single,tabsize=2]{Synthesia.vhd}
+						\lstinputlisting[language=VHDL, firstline=183, lastline=196,frame=single,tabsize=2]{Synthesia.vhd}
 			\item Proces odpowiedzialny za wybranie odpowiedniego dźwięku do odtworzenia na podstawie animacji\\
-									\lstinputlisting[language=VHDL, firstline=196, lastline=257,frame=single,tabsize=2]{Synthesia.vhd}
+						\lstinputlisting[language=VHDL, firstline=198, lastline=259,frame=single,tabsize=2]{Synthesia.vhd}
+			
 			\end{itemize}
 	\begin{landscape}
 		\subsection{Symulacja}
@@ -360,14 +366,14 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 					\includegraphics[width=1.6\textwidth]{synthesia_symulacja2.png}
 					\caption{Symulacja modułu Synthesia}
 				\end{figure}
-\justify Symulacja pokazuje wyświetlenie dolnej "belki", do która określa jaki dźwięk jest odgrywany. Belka ta wyświetlana jest dla wartości Y od 475 do 485, niezależnie od wartości zmiennej X.
+\justify Symulacja pokazuje wyświetlenie dolnej "belki", która określa jaki dźwięk jest odgrywany. Belka ta wyświetlana jest dla wartości \textbf{Y} od 475 do 485, niezależnie od wartości zmiennej \textbf{X}.
 		\end{landscape}
 	
 \chapter{Implementacja}
-	Projekt został zaimplementowany w srodowisku Xlinx ISE w wersji 14.7. Poprawność działania poszczególnych
-	modułów całego projektu była testowana w środowisku ModelSim podczas pracy nad projektem jak i w jego fazie końcowej.
-	Do poprawnej pracy układu niezbędna jest konfiguracja pliku ADC\_DAC.ucf oraz GenIO.ucf, których listingi zostały przedstawione
-	poniżej.
+	Projekt został zaimplementowany w środowisku Xilinx ISE w wersji 14.7. Poprawność działania poszczególnych
+	modułów całego projektu została przetestowana w środowisku ModelSim podczas pracy nad projektem jak i w jego fazie końcowej.
+	Do poprawnej pracy układu niezbędna jest konfiguracja plików ADC\_DAC.ucf oraz GenIO.ucf, których listingi zostały przedstawione
+	poniżej.\\
 	
 	ADC\_DAC.ucf \\
 	\lstinputlisting[language=VHDL, firstline=1, lastline=23,frame=single,tabsize=2]{ADC_DAC.ucf}
@@ -389,8 +395,8 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 
 	\section{Rozmiar}
 	
-	Poniżej przedstawiono raporty wygenerowane przez środowisko Xilinx podczas generowania implementacji.
-	Widać w nim że projekt wymaga aż 6,188 LUT spośród 9312 dostępnych. Ponadto do implementacji
+	Poniżej przedstawiono raporty wygenerowane przez środowisko Xilinx podczas implementacji.
+	Wynika z niego, że projekt wymaga aż 6,188 LUT spośród 9312 dostępnych. Ponadto do implementacji
 	zużyto 15\%  dostępnych przerzutników.
 	
 	\begin{figure}[h!]
@@ -418,23 +424,18 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 	\section{Podręcznik użytkowania urządzenia}
 	\par W celu użytkowania urządzenia należy wszystkie peryferia podłączyć do portów opisanych w sekcji sprzętu.
 	
-	\par Sterowanie trybem w jakim znajduje się urządzenie znajduje się pod przełącznikiem \textbf{SW3}. Stan wysoki
-	oznacza tryb odtwarzania dźwięków z klawiatury, stan niski na przełączniku oznacza odtwarzanie melodii w formie
+	\par Sterowanie trybem w jakim znajduje się urządzenie znajduje się pod przełącznikiem \textbf{SW3}. \\Stan wysoki
+	oznacza tryb odtwarzania dźwięków z klawiatury, stan niski na przełączniku oznacza \\odtwarzanie melodii w formie
 	pozytywki.
 	\par Klawisze na klawiaturze komputerowej jakich użytkownik może używać w celu grania dźwięków to klawisze:
 	\textbf{z}, \textbf{s}, \textbf{x}, \textbf{d}, \textbf{c}, \textbf{v}, \textbf{g}, \textbf{b}, \textbf{h}
 	, \textbf{n}, \textbf{j}, \textbf{m} oraz \textbf{,}. Jest to cała oktawa klawiatury fortepianowej plus jeden
 	klawisz z kolejnej oktawy(\textbf{,}).
 	
-	\par Przycisk do resetowania urządzenia to \textbf{BTN South} znajdujący się na płytce Spartan-3E.
+	\par Do resetowania urządzenia służy przycisk \textbf{BTN South} znajdujący się na płytce Spartan-3E.
 	
 	Zdjęcia zestawu:\\
 	
-	\begin{figure}[h!]
-				\centering
-				\includegraphics[width=1.0\textwidth]{zestaw_calosc.jpg}
-				\caption{Zestaw - całość}
-	\end{figure}	
 	
 	\begin{figure}[h!]
 				\centering
@@ -453,15 +454,21 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 				\includegraphics[width=1.0\textwidth]{zestaw_klawiatura.jpg}
 				\caption{Zestaw - klawiatura komputerowa}
 	\end{figure}	
+	
+		\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1.0\textwidth]{zestaw_calosc.jpg}
+				\caption{Zestaw - całość}
+	\end{figure}	
 		
 	
 \chapter{Podsumowanie}
 	\section{Ocena krytyczna}
-	Pierwsza wersja założeń projektowych nie została wykonana ze względu na ograniczenia czasowe oraz zbyt dużą złożoność problemu zaplanowanej początkowo gry. Jednak wykonanie projektu zodnie z nowymi założeniami jest dobrym wstępem do stworzenia pierwotnie zaplanowanej gry. Wszystkie nowsze założenia udało się spełnić. Podstawowe funkcje takie jak wyświetlanie animacji i odgrywanie melodii zapisanej w pamięci urządzenia, tryb swobodnej gry i możliwość swobodnego przechodzenia między tymi trybami zostały przetestowane zarówno przy pomocy testów w środowisku ISim, jak również manualnie w sali laboratoryjnej.
-\\\\Podczas tworzenia projektu, szczególna uwaga została przywiązana do stworzenia systemu rozszerzalnego o nowe funkcje. Stworzony został system zapisu dźwięków o zadanej długości. Generowane dźwięki można zmieniać definiując ich częstotliwość, ale również możliwe jest łatwe dodawanie nowych dźwięków do już istniejących.
-\\\\Pomimo tego, że nie udało się stworzyć gry, sama pozytywka odgrywająca melodię jednocześnie wyświetlając graficzną reprezentację melodii na ekranie wymagało dużego nakładu pracy i odpowiedniego podejścia do złączenia niezależnych elementów systemu w całość.
+	Pierwsza wersja założeń projektowych nie została wykonana ze względu na ograniczenia czasowe oraz zbyt dużą złożoność problemu zaplanowanej początkowo gry. Jednak wykonanie projektu zgodnie z \\nowymi założeniami jest dobrym wstępem do stworzenia pierwotnie zaplanowanej gry. Wszystkie nowsze założenia udało się spełnić. Podstawowe funkcje takie jak wyświetlanie animacji i odgrywanie melodii zapisanej w pamięci urządzenia, tryb swobodnej gry i możliwość swobodnego przechodzenia między tymi trybami zostały przetestowane zarówno przy pomocy testów w środowisku ModelSim, jak również manualnie w sali laboratoryjnej.
+\\\\ Podczas tworzenia projektu, szczególna uwaga została przywiązana do stworzenia systemu rozszerzalnego o nowe funkcje. Stworzony został system zapisu dźwięków o zadanej długości. Generowane dźwięki można zmieniać definiując ich częstotliwość, ale również możliwe jest łatwe dodawanie nowych dźwięków do już istniejących.
+\\\\Pomimo tego, że nie udało się stworzyć gry, sama pozytywka odgrywająca melodię jednocześnie \\wyświetlając graficzną reprezentację melodii na ekranie wymagało dużego nakładu pracy i odpowiedniego podejścia do złączenia niezależnych elementów systemu w całość.
 	\section{Kierunki dalszych prac}
-	Pierwszym kierunkiem w którego stronę mógłby zmierzyć powyższy projekt jest stworzenie gry poprzez dodanie modułu zarządzającego relacją modółów Synthesia - Klawiatura. Projekt można również zmodyfikować poprzez zamianę klawiatury komputerowej na klawiaturę MIDI. \\\\Wartym rozważenia pomysłem jest również dołączenie głośnika stereo oraz dodanie możliwości zagrania więcej niż jednego dźwięku naraz, aby gra na syntezatorze była bardziej zbliżona do gry na prawdziwym instrumencie. Dobrym rozwiązaniem byłoby również dołączenie możliwości odczytu melodii z karty pamięci lub możliwości nagrania własnej melodii w celu późniejszego odtworzenia.\\\\W przypadku wyświetlacza, warto byłoby również rozważyć stworzenie menu systemu z możliwością edycji odpowiednich opcji lub ustawiania odpowiednich trybów pracy systemu.
+	Pierwszym kierunkiem w którego stronę mógłby zmierzyć powyższy projekt jest stworzenie gry poprzez dodanie modułu zarządzającego relacją modułów Synthesia - Klawiatura. Projekt można również \\zmodyfikować poprzez zamianę klawiatury komputerowej na klawiaturę MIDI. \\\\Wartym rozważenia pomysłem jest również dołączenie głośnika stereo oraz dodanie możliwości zagrania więcej niż jednego dźwięku naraz, aby gra na syntezatorze była bardziej zbliżona do gry na prawdziwym instrumencie. Dobrym rozwiązaniem byłoby również dołączenie możliwości odczytu melodii z karty pamięci lub możliwości nagrania własnej melodii w celu późniejszego odtworzenia.\\\\W przypadku wyświetlacza, warto byłoby również rozważyć stworzenie menu systemu z możliwością edycji odpowiednich opcji lub ustawiania odpowiednich trybów pracy systemu.
 	
 \begin{thebibliography}{999}
 		\bibitem{Spartan} 
