@@ -65,7 +65,23 @@
 \chapter{Moduły}
 	\section{Generator Dźwięku}
 		\subsection{Symbol}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics{sawtoothgenerator2.png}
+				\caption{Moduł generujący falę piłokształtną}
+			\end{figure}
 		\subsection{Porty}
+		Wejścia:
+			\begin{itemize}	 
+				\item \textbf{Note} - wektor w zakresie od 0 do 13 odpowiadający za wysokość generowanego dźwięku
+				\item 			\textbf{Reset} - resetowanie procesu generowania fali piłokształtnej
+				\item			\textbf{Clk\_50MHz} - sygnał zegarowy
+			\end{itemize}
+		Wejścia:
+			\begin{itemize} 
+				\item 			\textbf{DATA} - wektor w zakresie od 0 do \{liczba\} przesylany do modułu DAC\_Write
+				\item 						\textbf{T\_sync} - sygnał synchronizujący generowanie sygnału przez moduł DAC\_Write
+			\end{itemize}
 		\subsection{Najważniejsze sygnały i procesy}
 		\subsection{FSM}
 		Graf i opis kodu
