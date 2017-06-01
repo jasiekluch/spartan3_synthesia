@@ -57,15 +57,40 @@
 \chapter{Wstęp}
 	\section{Cel i zakres}
 	\section{Sprzęt}
+		\par Sprzęt jaki wykorzystaliśmy do stworzenia naszego urządzenia to płytka FPGA Spartan-3E, 
+		monitor VGA, brzęczyk 1 kHz, klawiatura komputerowa. Wszystkie peryferia jakie wykorzystaliśmy
+		są bezpośrednią podłączane do płytki Spartan-3E.
+		\par Monitor jest podłączany pod złącze D-SUB, 
+		klawiatura komputerowa pod złącze PS/2, natomiast brzęczyk pod złącze DAC OUT. Aby ułatwić 
+		podłączanie brzęczyka do wyjścia DAC OUT wysyłamy sygnał sterujący na wszystkie 4 dostępne w tym 
+		złączu porty. Jeden kabelek od brzęczyka należy podłączyć do jednego z wymienionych pinów: \textbf{A},
+		\textbf{B}, \textbf{C} lub \textbf{D}. Natomiast drugi kabelek należy podłączyć do uziemienia(pin \textbf{GND}).
 	\section{Protokoły}
 	\section{Interfejsy}
 	\section{Algorytmy}
 
 \chapter{Projekt}
+	\section{Opis}
+	W projekcie zaimplementowano szereg modułów w celu rozdzielenia zadań na poszczególne moduły
+	co umożliwiło równoległy rozwój każdego z modułów. Taki podział zapewnia również większą
+	niezawodność całego układu oraz łatwość w lokalizowaniu ewentualnych błędów i 
+	usterek urządzenia z uwagi na jego podział na moduł wykonujące określone zadania.
 	\section{Hierarchia}
-	Krótka proza
-		\subsection{Schemat}
-		\subsection{Submoduły}
+		\begin{figure}[h!]
+			\centering
+			\includegraphics{hierarchy.png}
+			\caption{Hierarchia źródeł projektu}
+		\end{figure}
+				
+		\begin{landscape}
+			\subsection{Schemat}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=1.1\textwidth]{schemat.png}
+					\caption{Schemat projektu}
+				\end{figure}
+		\end{landscape}
+
 \chapter{Moduły}
 	\section{Generator Dźwięku}
 		\subsection{Symbol}
@@ -121,13 +146,72 @@
 			\begin{figure}[h!]
 				\centering
 				\includegraphics{vgadriver2.png}
-				\caption{Moduł sterujący wyjciem VGA}
+				\caption{Moduł sterujący wyjściem VGA}
 			\end{figure}
+			
 		\subsection{Porty}
+			{\Large Wejścia:}
+			\begin{itemize}	 
+				\item \textbf{Clk\_50MHz} - sygnał zegarowy
+				\item \textbf{RGB} - wektor w zakresie od 0 do 7 odpowiadający za kolor aktualnego piksela
+			\end{itemize}
+			{\Large Wyjścia:}
+			\begin{itemize} 
+				\item \textbf{R} - sygnał mówiący czy piksel ma mieć zapalony kolor czerwony
+				\item \textbf{G} - sygnał mówiący czy piksel ma mieć zapalony kolor zielony
+				\item \textbf{B} - sygnał mówiący czy piksel ma mieć zapalony kolor niebieski
+				\item \textbf{H\_sync} - sygnał synchronizacji poziomej
+				\item \textbf{V\_sync} - sygnał synchronizacji pionowej
+				\item \textbf{X} - wektor z zakresu od 0 do 800, podaje on pozycję x w jakiej znajduje się naświetlany piksel
+				\item \textbf{Y} - wektor z zakresu od 0 do 600, podaje on pozycję y w jakiej znajduje się naświetlany piksel
+			\end{itemize}
+			
 		\subsection{Najważniejsze sygnały i procesy}
-		\subsection{FSM}
-		Graf i opis kodu
-		\subsection{Symulacja}
+			{\Large Sygnały i stałe:}
+			\begin{itemize}
+				\item \textbf{hpixels} - stała przechowująca liczbę pikseli w poziomie wraz z marginesami
+				\item \textbf{vlines} - stała przechowująca liczbę pikseli w pionie wraz z marginesami
+				\item \textbf{maxWidth} - stała przechowująca liczbę pikseli ekranu w poziomie
+				\item \textbf{maxHeight} - stała przechowująca liczbę pikseli ekranu w pionie
+				\item \textbf{hbp} - stała przechowująca liczbę pikseli tylnego poziomego marginesu
+				\item \textbf{hfp} - stała przechowująca liczbę pikseli przedniego poziomego marginesu
+				\item \textbf{vbp} - stała przechowująca liczbę pikseli tylnego pionowego marginesu
+				\item \textbf{vfp} - stała przechowująca liczbę pikseli przedniego pionowego marginesu
+				\item \textbf{hpw} - stała przechowująca liczbę pikseli potrzebną do ustawienia działa elektronowego w poziomie
+				\item \textbf{vpw} - stała przechowująca liczbę pikseli potrzebną do ustawienia działa elektronowego w pionie
+				\item \textbf{hs} - sygnał synchronizacji poziomej
+				\item \textbf{vs} - sygnał synchronizacji pionowej
+				\item \textbf{screenEnabled} - zmienna boolowska mówiąca czy pozycja działa elektronowego znajduje się w obszarze ekranu
+			\end{itemize}
+			{\Large Procesy:}
+			\begin{itemize}
+				\item Proces ten odpowiedzialny jest za ustawianie sygnałów synchronizacji poziomej oraz pionowej podczas gdy działo elektronowe
+				znajduje się w polu ekranu \\
+					\lstinputlisting[language=VHDL, firstline=73, lastline=101,frame=single,tabsize=2]{VGA_Driver.vhd}
+				\item Proces ten odpowiada za ustawienie sygnałów wyjściowych \textbf{X} i \textbf{Y} mówiących o położeniu działa elektronowego
+				w danym momencie. Drugim zadaniem procesu jest ustawienie zmiennej boolowskiej  \textbf{screenEnabled}, która ma mówić o tym czy
+				należy ustawić sygnał na portach \textbf{R}, \textbf{G} i \textbf{B}\\
+					\lstinputlisting[language=VHDL, firstline=103, lastline=121,frame=single,tabsize=2]{VGA_Driver.vhd}
+				\item Proces ustawia sygnały wyjściowe \textbf{R}, \textbf{G} i \textbf{B} na odpowiednie wartości z wektora wejściowego \textbf{RGB}
+				jeżeli działo elektronowe znajduje się w obszarze ekranu oraz \textbf{'0'} w przeciwnym wypadku.\\
+					\lstinputlisting[language=VHDL, firstline=124, lastline=135,frame=single,tabsize=2]{VGA_Driver.vhd}
+			\end{itemize}			
+			
+		\begin{landscape}
+			\subsection{Symulacja}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=1.6\textwidth]{vga_driver_symulacja2.png}
+					\caption{Symulacja modułu VGA\_Driver}
+				\end{figure}
+			\justify
+            Na symulacji ukazano jak szybko zmienia się wektor wyjściowy \textbf{X} oraz jak długo otrzymuje on wartość \textbf{800} co związane jest
+            z czasem ustawienia się działa elektronowego w nowej linii. Ponadto widać na niej, że wartość sygnału wyjściowego \textbf{Y} zostaje
+            zwiększona za każdym razem kiedy sygnał wyjściowy \textbf{X} osiąga swoją maksymalną wartość, czyli \textbf{800}. Tak samo dzieje się z
+            sygnałem wyjściowym \textbf{Y} gdy osiągnie on swoją maksymalną wartość. Należy pamiętać, że po każdym osiągnięciu wartości maksymalnych
+            przez sygnały wyjściowe \textbf{X} i \textbf{Y} następuje ustawienie działa elektronowego co trwa ustaloną długość czasu.
+		\end{landscape}
+		
 	\newpage
 	\section{Przełącznik}
 		\subsection{Symbol}	
@@ -136,52 +220,88 @@
 				\includegraphics{switch2.png}
 				\caption{Moduł Switch}
 			\end{figure}
+			
 		\subsection{Porty}
 			{\Large Wejścia:}
 			\begin{itemize}	 
 				\item \textbf{KeyNote} - wektor w zakresie od 0 do 13 odpowiadający numerowi przychodzącej nuty z modułu klawiatury
-				\item \textbf{KeyEN} - ustawianie trybu w jakim ma działać urządzeni(1 - klawiatura, 0 - pozytywka)
+				\item \textbf{KeyEN} - ustawianie trybu w jakim ma działać urządzeni(\textbf{1} - klawiatura, \textbf{0} - pozytywka)
 				\item \textbf{RomNote} - wektor w zakresie od 0 do 13 odpowiadający numerowi przychodzącej nuty z modułu pozytywki
 			\end{itemize}
-		{\Large Wejścia:}
+			{\Large Wyjścia:}
 			\begin{itemize} 
 				\item \textbf{Note} - wektor w zakresie od 0 do 13 ustawiany w zależności od trybu w jakim pracuje urządzenie
 				\item \textbf{Pause} - sygnał zatrzymujący animację pozytywki
 			\end{itemize}
+			
 		\subsection{Najważniejsze sygnały i procesy}
 			{\Large Procesy:}
-				\begin{itemize}
-					\item Proces odpowiedzialny za ustawianie wektora wyjściowego Note w zależności od sygnału KeyEN\\
-						\lstinputlisting[language=VHDL, firstline=43, lastline=43,frame=single,tabsize=2]{Switch.vhd}
-					\item Proces odpowiedzialny za ustawianie synału pauzy w zależności od sygnału KeyEN\\
-						\lstinputlisting[language=VHDL, firstline=44, lastline=44,frame=single,tabsize=2]{Switch.vhd}
-				\end{itemize}
+			\begin{itemize}
+				\item Proces odpowiedzialny za ustawianie wektora wyjściowego \textbf{Note} w zależności od sygnału \textbf{KeyEN}\\
+					\lstinputlisting[language=VHDL, firstline=43, lastline=43,frame=single,tabsize=2]{Switch.vhd}
+				\item Proces odpowiedzialny za ustawianie sygnału pauzy w zależności od sygnału \textbf{KeyEN}\\
+					\lstinputlisting[language=VHDL, firstline=44, lastline=44,frame=single,tabsize=2]{Switch.vhd}
+			\end{itemize}
 	
 		\begin{landscape}
 			\subsection{Symulacja}
 				\begin{figure}[h!]
 					\centering
 					\includegraphics[width=1.6\textwidth]{switch_symulacja2.png}
-					\caption{Sumulacja modeułu Switch}
+					\caption{Symulacja modułu Switch}
 				\end{figure}
 			\justify
-            Na symulacji widać jak w zależności od sygnału KeyEN podawany jest sygnał na wyjście Note. Jest to RomNote jeśli KeyEN = '0' lub KeyNote jeśli KeyEN = '1'.
-            Ponadto, jeżeli sygnał KeyEN = '1', to sygnał Pause ustawiany jest na '1' w celu zatrzymania animacji pozytywki.
-
+            Na symulacji widać jak w zależności od sygnału \textbf{KeyEN} podawany jest sygnał na wyjście Note. 
+            Jest to \textbf{RomNote} jeśli \textbf{KeyEN = '0'} lub \textbf{KeyNote} jeśli \textbf{KeyEN = '1'}.
+            Ponadto, jeżeli sygnał \textbf{KeyEN = '1'}, to sygnał \textbf{Pause = '1}' w celu zatrzymania animacji pozytywki.
 		\end{landscape}
+		
 	\section{Czytnik kodów z klawiatury}
 		\subsection{Symbol}
 			\begin{figure}[h!]
 				\centering				
 				\includegraphics{readkbdkeys2.png}
-				\caption{Moduł czytający kody z klawiatury}
+				\caption{Moduł czytający kody skaningowe z klawiatury}
 			\end{figure}
 		\subsection{Porty}
-			\lstinputlisting[language=VHDL, firstline=4, lastline=11,frame=single]{ReadKbdKeys.vhd}
+			{\Large Wejścia:}
+			\begin{itemize}	 
+				\item \textbf{DO} - wektor w zakresie od 0 do 255 zawierający kod skaningowy wciśniętego klawisza
+				\item \textbf{F0} - sygnał informujący o wyciśnięciu klawisza
+				\item \textbf{DO\_Rdy} - sygnał informujący o gotowości przesłaniu kodu wciśniętego klawisza
+				\item \textbf{Reset} - sygnał resetu
+				\item \textbf{Clk\_50MHz} - sygnał zegarowy
+			\end{itemize}
+			{\Large Wyjścia:}
+			\begin{itemize} 
+				\item \textbf{Note} - wektor w zakresie od 0 do 13 wysyłający numer klawisza, którego dźwięk ma być w danym momencie grany
+			\end{itemize}
 		\subsection{Najważniejsze sygnały i procesy}
-		\subsection{FSM}
-		Graf i opis kodu
-		\subsection{Symulacja}
+			{\Large Sygnały:}
+			\begin{itemize}
+				\item \textbf{input} - sygnał odpowiedzialny za zapamiętanie wektora sygnału wejściowego DO 
+				w celu jego przechowywania, aż do momentu nadejścia sygnału wyciśnięcia klawisza
+				\item \textbf{output} - sygnał wyjściowy przechowujący numer klawisza jakiego dźwięk w danej chwili ma być grany
+			\end{itemize}
+			{\Large Procesy:}
+			\begin{itemize}
+			\item Proces odpowiedzialny za ustawienie sygnału wyjściowego w zależności od wciśniętego w danej chwili klawisza klawiatury\\
+				\lstinputlisting[language=VHDL, firstline=19, lastline=61,frame=single,tabsize=2]{ReadKbdKeys.vhd}
+			\end{itemize}
+			
+		\begin{landscape}
+			\subsection{Symulacja}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=1.6\textwidth]{readkbdkeys_symulacja2.png}
+					\caption{Symulacja modułu ReadKbdKeys}
+				\end{figure}
+			\justify
+            Symulacja pokazuje jak sygnał \textbf{Note} zostaje ustawiony na zadaną wartość po otrzymaniu przez moduł sygnału \textbf{DO\_Rdy}
+            w zależności od tego jaki klawisz został wciśnięty(sygnał \textbf{DO} zawiera jego kod skaningowy). Za moment można zauważyć, że 
+            sygnał \textbf{Note} zostaje ustawiony na \textbf{0}, po otrzymaniu przez moduł sygnału wyciśnięcia klawisza(sygnał \textbf{F0}).
+		\end{landscape}
+		
 		\newpage
 	\section{Synthesia}
 		\subsection{Symbol}
@@ -223,11 +343,96 @@
 		\subsection{Symulacja}
 	
 \chapter{Implementacja}
+	Projekt został zaimplementowany w srodowisku Xlinx ISE w wersji 14.7. Poprawność działania poszczególnych
+	modułów całego projektu była testowana w środowisku ModelSim podczas pracy nad projektem jak i w jego fazie końcowej.
+	Do poprawnej pracy układu niezbędna jest konfiguracja pliku ADC\_DAC.ucf oraz GenIO.ucf, których listingi zostały przedstawione
+	poniżej.
+	
+	ADC\_DAC.ucf \\
+	\lstinputlisting[language=VHDL, firstline=1, lastline=23,frame=single,tabsize=2]{ADC_DAC.ucf}
+	
+	GenIO.ucf - zegar \\
+	\lstinputlisting[language=VHDL, firstline=1, lastline=3,frame=single,tabsize=2]{GenIO.ucf}
+	
+	GenIO.ucf - przycisk reset \\
+	\lstinputlisting[language=VHDL, firstline=12, lastline=17,frame=single,tabsize=2]{GenIO.ucf}
+	
+	GenIO.ucf - przełącznik trybu \\
+	\lstinputlisting[language=VHDL, firstline=20, lastline=25,frame=single,tabsize=2]{GenIO.ucf}
+	
+	GenIO.ucf - port PS/2 \\
+	\lstinputlisting[language=VHDL, firstline=47, lastline=50,frame=single,tabsize=2]{GenIO.ucf}
+	
+	GenIO.ucf - VGA \\
+	\lstinputlisting[language=VHDL, firstline=53, lastline=59,frame=single,tabsize=2]{GenIO.ucf}
+
 	\section{Rozmiar}
-	LUT, BRAM
-	\section{fmax}
+	
+	Poniżej przedstawiono raporty wygenerowane przez środowisko Xilinx podczas generowania implementacji.
+	Widać w nim że projekt wymaga aż 6,188 LUT spośród 9312 dostępnych. Ponadto do implementacji
+	zużyto 15\%  dostępnych przerzutników.
+	
+	\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1.0\textwidth]{report1.png}
+				\caption{Raport cz. 1}
+	\end{figure}	
+	
+	\newpage
+	
+	\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1.0\textwidth]{report2.png}
+				\caption{Raport cz. 2}
+	\end{figure}	
+	
+	Częstotliwość maksymalna z jaką może pracować układ:
+	\textbf{~20 GHz}
+	 
+	Maksymalne opóźnienie układu:
+	\textbf{0.204000 ns}
+	
+	
+		
 	\section{Podręcznik użytkowania urządzenia}
-	(Zdjęcia)
+	\par W celu użytkowania urządzenia należy wszystkie peryferia podłączyć do portów opisanych w sekcji sprzętu.
+	
+	\par Sterowanie trybem w jakim znajduje się urządzenie znajduje się pod przełącznikiem \textbf{SW3}. Stan wysoki
+	oznacza tryb odtwarzania dźwięków z klawiatury, stan niski na przełączniku oznacza odtwarzanie melodii w formie
+	pozytywki.
+	\par Klawisze na klawiaturze komputerowej jakich użytkownik może używać w celu grania dźwięków to klawisze:
+	\textbf{z}, \textbf{s}, \textbf{x}, \textbf{d}, \textbf{c}, \textbf{v}, \textbf{g}, \textbf{b}, \textbf{h}
+	, \textbf{n}, \textbf{j}, \textbf{m} oraz \textbf{,}. Jest to cała oktawa klawiatury fortepianowej plus jeden
+	klawisz z kolejnej oktawy(\textbf{,}).
+	
+	\par Przycisk do resetowania urządzenia to \textbf{BTN South} znajdujący się na płytce Spartan-3E.
+	
+	Zdjęcia zestawu:\\
+	
+	\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1.0\textwidth]{zestaw_calosc.jpg}
+				\caption{Zestaw - całość}
+	\end{figure}	
+	
+	\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1.0\textwidth]{zestaw_plytka_i_glosniczek2.jpg}
+				\caption{Zestaw - płytka Spartan-3E i brzęczyk}
+	\end{figure}	
+	
+	\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1.0\textwidth]{zestaw_monitor3.jpg}
+				\caption{Zestaw - monitor VGA}
+	\end{figure}	
+	
+	\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1.0\textwidth]{zestaw_klawiatura.jpg}
+				\caption{Zestaw - klawiatura komputerowa}
+	\end{figure}	
+		
 	
 \chapter{Podsumowanie}
 	\section{Ocena krytyczna}	
