@@ -32,6 +32,8 @@
 \titleformat{\chapter}[display]{\normalfont\bfseries}{}{0pt}{\Huge}
 % do dodawania listingów kodu
 \usepackage{listings}
+% obracanie strony do landsacape
+\usepackage{pdflscape}
 
 \title{\huge Układy Cyfrowe i Systemy Wbudowane 2\\Projekt Synthesia}
 \date{} % pusta data
@@ -74,13 +76,13 @@
 		{\Large Wejścia:}
 			\begin{itemize}	 
 				\item \textbf{Note} - wektor w zakresie od 0 do 13 odpowiadający za wysokość generowanego dźwięku
-				\item 			\textbf{Reset} - resetowanie procesu generowania fali piłokształtnej
-				\item			\textbf{Clk\_50MHz} - sygnał zegarowy
+				\item \textbf{Reset} - resetowanie procesu generowania fali piłokształtnej
+				\item \textbf{Clk\_50MHz} - sygnał zegarowy
 			\end{itemize}
 		{\Large Wyjścia:}
 			\begin{itemize} 
-				\item 			\textbf{DATA} - wektor w zakresie od 0 do 4032 przesylany do modułu DAC\_Write
-				\item 						\textbf{T\_sync} - sygnał startu przesyłania
+				\item \textbf{DATA} - wektor w zakresie od 0 do 4032 przesylany do modułu DAC\_Write
+				\item \textbf{T\_sync} - sygnał startu przesyłania
 			\end{itemize}
 		\subsection{Najważniejsze sygnały i procesy}
 		{\Large Sygnały:}
@@ -94,11 +96,11 @@
 		{\Large Procesy:}
 			\begin{itemize}
 			\item Proces odpowiedzialny za licznik dzielący częstotliwość oraz za generowanie sygnału startu przesyłania\\
-						\lstinputlisting[language=VHDL, firstline=83, lastline=97,frame=single,tabsize=2]{SawtoothGenerator.vhd}
+				\lstinputlisting[language=VHDL, firstline=83, lastline=97,frame=single,tabsize=2]{SawtoothGenerator.vhd}
 			\item Proces odpowiedzialny za licznik pojedynczego przebiegu fali\\
-									\lstinputlisting[language=VHDL, firstline=100, lastline=111,frame=single,tabsize=2]{SawtoothGenerator.vhd}
+				\lstinputlisting[language=VHDL, firstline=100, lastline=111,frame=single,tabsize=2]{SawtoothGenerator.vhd}
 			\item Proces odpowiedzialny za zwrócenie wektora wyjściowego na najstarszych bitach, ze względu na moduł DAC\_Write, który odczytuje najstarsze bity\\
-									\lstinputlisting[language=VHDL, firstline=117, lastline=117,frame=single,tabsize=2]{SawtoothGenerator.vhd}
+				\lstinputlisting[language=VHDL, firstline=117, lastline=117,frame=single,tabsize=2]{SawtoothGenerator.vhd}
 			\end{itemize}
 		\subsection{Symulacja}
 		
@@ -115,22 +117,48 @@
 		\subsection{FSM}
 		Graf i opis kodu
 		\subsection{Symulacja}
+	\newpage
 	\section{Przełącznik}
-		\subsection{Symbol}
+		\subsection{Symbol}	
 			\begin{figure}[h!]
 				\centering
 				\includegraphics{switch2.png}
 				\caption{Moduł Switch}
 			\end{figure}
 		\subsection{Porty}
+			{\Large Wejścia:}
+			\begin{itemize}	 
+				\item \textbf{KeyNote} - wektor w zakresie od 0 do 13 odpowiadający numerowi przychodzącej nuty z modułu klawiatury
+				\item \textbf{KeyEN} - ustawianie trybu w jakim ma działać urządzeni(1 - klawiatura, 0 - pozytywka)
+				\item \textbf{RomNote} - wektor w zakresie od 0 do 13 odpowiadający numerowi przychodzącej nuty z modułu pozytywki
+			\end{itemize}
+		{\Large Wejścia:}
+			\begin{itemize} 
+				\item \textbf{Note} - wektor w zakresie od 0 do 13 ustawiany w zależności od trybu w jakim pracuje urządzenie
+				\item \textbf{Pause} - sygnał zatrzymujący animację pozytywki
+			\end{itemize}
 		\subsection{Najważniejsze sygnały i procesy}
-		\subsection{FSM}
-		Graf i opis kodu
-		\subsection{Symulacja}
+			{\Large Procesy:}
+				\begin{itemize}
+					\item Proces odpowiedzialny za ustawianie wektora wyjściowego Note w zależności od sygnału KeyEN\\
+						\lstinputlisting[language=VHDL, firstline=43, lastline=43,frame=single,tabsize=2]{Switch.vhd}
+					\item Proces odpowiedzialny za ustawianie synału pauzy w zależności od sygnału KeyEN\\
+						\lstinputlisting[language=VHDL, firstline=44, lastline=44,frame=single,tabsize=2]{Switch.vhd}
+				\end{itemize}
+	
+		\begin{landscape}
+			\subsection{Symulacja}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=1.6\textwidth]{switch_symulacja2.png}
+					\caption{Sumulacja modeułu Switch}
+				\end{figure}
+		\end{landscape}
+			Na symulacji widać zmianę
 	\section{Czytnik kodów z klawiatury}
 		\subsection{Symbol}
 			\begin{figure}[h!]
-				\centering
+				\centering				
 				\includegraphics{readkbdkeys2.png}
 				\caption{Moduł czytający kody z klawiatury}
 			\end{figure}
