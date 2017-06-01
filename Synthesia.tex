@@ -78,7 +78,7 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 \chapter{Projekt}
 	\section{Hierarchia}
 	Krótka proza
-		\subsection{Schemat}
+	\section{Schemat}
 \chapter{Moduły}
 	\section{Generator Dźwięku}
 		\subsection{Symbol}
@@ -246,23 +246,35 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 	(Zdjęcia)
 	
 \chapter{Podsumowanie}
-	\section{Ocena krytyczna}	
+	\section{Ocena krytyczna}
+	Pierwsza wersja założeń projektowych nie została wykonana ze względu na ograniczenia czasowe oraz zbyt dużą złożoność problemu zaplanowanej początkowo gry. Jednak wykonanie projektu zodnie z nowymi założeniami jest dobrym wstępem do stworzenia pierwotnie zaplanowanej gry. Wszystkie nowsze założenia udało się spełnić. Podstawowe funkcje takie jak wyświetlanie animacji i odgrywanie melodii zapisanej w pamięci urządzenia, tryb swobodnej gry i możliwość swobodnego przechodzenia między tymi trybami zostały przetestowane zarówno przy pomocy testów w środowisku ISim, jak również manualnie w sali laboratoryjnej.
+\\\\Podczas tworzenia projektu, szczególna uwaga została przywiązana do stworzenia systemu rozszerzalnego o nowe funkcje. Stworzony został system zapisu dźwięków o zadanej długości. Generowane dźwięki można zmieniać definiując ich częstotliwość, ale również możliwe jest łatwe dodawanie nowych dźwięków do już istniejących.
+\\\\Pomimo tego, że nie udało się stworzyć gry, sama pozytywka odgrywająca melodię jednocześnie wyświetlając graficzną reprezentację melodii na ekranie wymagało dużego nakładu pracy i odpowiedniego podejścia do złączenia niezależnych elementów systemu w całość.
 	\section{Kierunki dalszych prac}
+	Pierwszym kierunkiem w którego stronę mógłby zmierzyć powyższy projekt jest stworzenie gry poprzez dodanie modułu zarządzającego relacją modółów Synthesia - Klawiatura. Projekt można również zmodyfikować poprzez zamianę klawiatury komputerowej na klawiaturę MIDI. \\\\Wartym rozważenia pomysłem jest również dołączenie głośnika stereo oraz dodanie możliwości zagrania więcej niż jednego dźwięku naraz, aby gra na syntezatorze była bardziej zbliżona do gry na prawdziwym instrumencie. Dobrym rozwiązaniem byłoby również dołączenie możliwości odczytu melodii z karty pamięci lub możliwości nagrania własnej melodii w celu późniejszego odtworzenia.\\\\W przypadku wyświetlacza, warto byłoby również rozważyć stworzenie menu systemu z możliwością edycji odpowiednich opcji lub ustawiania odpowiednich trybów pracy systemu.
 	
-\chapter{Literatura}
-
-\begin{figure}
-	\caption{Sample figure}
-\end{figure}
+\begin{thebibliography}{999}
+		\bibitem{Spartan} 
+		{\em http://www.xilinx.com/support/documentation/boards\_and\_kits/ug230.pdf}, \\
+		dokumentacja układu Spartan-3E Starter Kit Board.
+	
+		\bibitem{Lesson 104 VGA Controller} 
+		{\em https://www.youtube.com/watch?v=wzhDRIX2Ors}, \\
+		film prezentujący zasady działania kontrolerów VGA.
 		
-\begin{table}
-	\caption{Sample table}
-\end{table}
+		\bibitem{Numeric STD} 
+		{\em http://staff.iiar.pwr.wroc.pl/antoni.sterna/ucsw/numeric\_std.pdf}, \\
+		dokument opisujący konwersje typów przy użyciu biblioteki IEEE.numeric\_std.
+		
+			\bibitem{Scan Codes} 
+		{\em http://www.computer-engineering.org/ps2keyboard/scancodes2.html}, \\
+		tabela kodów interfejsu klawiatury PS/2.
+		
+	\end{thebibliography}	
 
 % Compile twice to generate list of tables and figures properly
 \begin{appendix}
 	\listoffigures
-	\listoftables
 \end{appendix}
 
 
