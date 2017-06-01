@@ -131,126 +131,132 @@ begin
 	
 
 -- rysowanie
-	check_position : process(Clk_50MHz)
-	begin
-		if rising_edge(Clk_50MHz) then
-         if (x_in > 0 and x_in < 793) then
-            if (y_in >= bar_position and y_in < bar_position + bar_height) then
-               RGB <= "111";
-               should_play <= '0';
-            else
-               RGB <= "000";
-               should_play <= '0';
-            end if;
-         else
-            RGB <= "000";
-            should_play <= '0';
-         end if;
-       
-         for i in 0 to notes_count - 1 loop
-            if (x_in > keys_position(keys_to_display(i)(0)) and x_in < keys_position(keys_to_display(i)(0)) + width) then
-               if (y_in > keys_to_display(i)(1) and y_in < keys_to_display(i)(1) + keys_to_display(i)(2)) then 
-                  if (keys_to_display(i)(1) + keys_to_display(i)(2) >= bar_position ) then
-                     RGB <= "100"; 
-                     should_play <= '1';
-                   else
-                     RGB <= "010";
-                     should_play <= '0';
-                  end if;                                   
-               end if;
-            end if; 
-         end loop; 
-         
-         if (x_in > 0 and x_in < 793) then
-            if (y_in >= bar_position and y_in < bar_position + bar_height) then
-               RGB <= "111";
-               should_play <= '0';
-            end if;
-         end if;
-         
-         if (y_in >= bar_position + bar_height) then
-            RGB <= "000";
-            should_play <= '0';
-         end if;
-      end if;
-	end process;
+draw : process(Clk_50MHz)
+begin
+	if rising_edge(Clk_50MHz) then
+		if (x_in > 0 and x_in < 793) then
+			if (y_in >= bar_position 
+			and y_in < bar_position + bar_height) then
+				RGB <= "111";
+				should_play <= '0';
+			else
+				RGB <= "000";
+				should_play <= '0';
+			end if;
+		else
+			RGB <= "000";
+			should_play <= '0';
+		end if;
+	 
+		for i in 0 to notes_count - 1 loop
+			if (x_in > keys_position(keys_to_display(i)(0)) 
+			and x_in < keys_position(keys_to_display(i)(0)) + width) then
+				if (y_in > keys_to_display(i)(1) 
+				and y_in < keys_to_display(i)(1) + keys_to_display(i)(2)) then 
+					if (keys_to_display(i)(1) + keys_to_display(i)(2) 
+							>= bar_position) then
+						RGB <= "100"; 
+						should_play <= '1';
+					 else
+						RGB <= "010";
+						should_play <= '0';
+					end if;                                   
+				end if;
+			end if; 
+		end loop; 
+		
+		if (x_in > 0 and x_in < 793) then
+			if (y_in >= bar_position 
+			and y_in < bar_position + bar_height) then
+				RGB <= "111";
+				should_play <= '0';
+			end if;
+		end if;
+		
+		if (y_in >= bar_position + bar_height) then
+			RGB <= "000";
+			should_play <= '0';
+		end if;
+	end if;
+end process;
    
-   move : process(Clk_50MHz)
-   begin
-      if reset = '1' then
-            keys_to_display(0)(1) <= -72;
-      elsif rising_edge(Clk_50MHz) and Pause = '0' then
-         if (y_in = bar_position and x_in = 0) then  
-            keys_to_display(0)(1) <= keys_to_display(0)(1) + 1;                     
-            for i in 1 to notes_count - 1 loop                 
-               keys_to_display(i)(1) <= keys_to_display(i-1)(1) - keys_to_display(i)(2) + 1;           
-            end loop;
-         end if;   
-      end if;
-   end process; 
-   
-   play : process(Clk_50MHz)
-   begin
-      if rising_edge(Clk_50MHz) then
-         if (y_in = bar_position - 1) then
-            if (x_in > keys_position(1) and x_in <= keys_position(2)) then
-               if (should_play = '1') then
-                  NoteOut <= "0001";
-               end if;
-            elsif (x_in > keys_position(2) and x_in <= keys_position(3)) then
-               if (should_play = '1') then
-                  NoteOut <= "0010";
-               end if;
-            elsif (x_in > keys_position(3) and x_in <= keys_position(4)) then
-               if (should_play = '1') then
-                  NoteOut <= "0011";
-               end if;
-            elsif (x_in > keys_position(4) and x_in <= keys_position(5)) then
-               if (should_play = '1') then
-                  NoteOut <= "0100";
-               end if;
-            elsif (x_in > keys_position(5) and x_in <= keys_position(6)) then
-               if (should_play = '1') then
-                  NoteOut <= "0101";
-               end if;
-            elsif (x_in > keys_position(6) and x_in <= keys_position(7)) then
-               if (should_play = '1') then
-                  NoteOut <= "0110";
-               end if;
-            elsif (x_in > keys_position(7) and x_in <= keys_position(8)) then
-               if (should_play = '1') then
-                  NoteOut <= "0111";
-               end if;
-            elsif (x_in > keys_position(8) and x_in <= keys_position(9)) then
-               if (should_play = '1') then
-                  NoteOut <= "1000";
-               end if;
-            elsif (x_in > keys_position(9) and x_in <= keys_position(10)) then
-               if (should_play = '1') then
-                  NoteOut <= "1001";
-               end if;
-            elsif (x_in > keys_position(10) and x_in <= keys_position(11)) then
-               if (should_play = '1') then
-                  NoteOut <= "1010";
-               end if;
-            elsif (x_in > keys_position(11) and x_in <= keys_position(12)) then
-               if (should_play = '1') then
-                  NoteOut <= "1011";
-               end if;
-            elsif (x_in > keys_position(12) and x_in <= keys_position(13)) then
-               if (should_play = '1') then
-                  NoteOut <= "1100";
-               end if;
-            elsif (x_in >= keys_position(13)) then
-               if (should_play = '1') then
-                  NoteOut <= "1101";
-               end if;
-            else
-               NoteOut <= "0000";
-            end if;               
-         end if;
-      end if;
-   end process;
+move : process(Clk_50MHz)
+begin
+	if reset = '1' then
+			keys_to_display(0)(1) <= -72;
+	elsif rising_edge(Clk_50MHz) and Pause = '0' then
+		if (y_in = bar_position and x_in = 0) then  
+			keys_to_display(0)(1) <= keys_to_display(0)(1) + 1;                     
+			for i in 1 to notes_count - 1 loop                 
+				keys_to_display(i)(1) <= keys_to_display(i-1)(1) 
+				- keys_to_display(i)(2) + 1;           
+			end loop;
+		end if;   
+	end if;
+end process; 
+
+play : process(Clk_50MHz)
+begin
+if rising_edge(Clk_50MHz) then
+	if (y_in = bar_position - 1) then
+		if (x_in > keys_position(1) and x_in <= keys_position(2)) then
+			if (should_play = '1') then
+				NoteOut <= "0001";
+			end if;
+		elsif (x_in > keys_position(2) and x_in <= keys_position(3)) then
+			if (should_play = '1') then
+				NoteOut <= "0010";
+			end if;
+		elsif (x_in > keys_position(3) and x_in <= keys_position(4)) then
+			if (should_play = '1') then
+				NoteOut <= "0011";
+			end if;
+		elsif (x_in > keys_position(4) and x_in <= keys_position(5)) then
+			if (should_play = '1') then
+				NoteOut <= "0100";
+			end if;
+		elsif (x_in > keys_position(5) and x_in <= keys_position(6)) then
+			if (should_play = '1') then
+				NoteOut <= "0101";
+			end if;
+		elsif (x_in > keys_position(6) and x_in <= keys_position(7)) then
+			if (should_play = '1') then
+				NoteOut <= "0110";
+			end if;
+		elsif (x_in > keys_position(7) and x_in <= keys_position(8)) then
+			if (should_play = '1') then
+				NoteOut <= "0111";
+			end if;
+		elsif (x_in > keys_position(8) and x_in <= keys_position(9)) then
+			if (should_play = '1') then
+				NoteOut <= "1000";
+			end if;
+		elsif (x_in > keys_position(9) and x_in <= keys_position(10)) then
+			if (should_play = '1') then
+				NoteOut <= "1001";
+			end if;
+		elsif (x_in > keys_position(10) and x_in <= keys_position(11)) then
+			if (should_play = '1') then
+				NoteOut <= "1010";
+			end if;
+		elsif (x_in > keys_position(11) and x_in <= keys_position(12)) then
+			if (should_play = '1') then
+				NoteOut <= "1011";
+			end if;
+		elsif (x_in > keys_position(12) and x_in <= keys_position(13)) then
+			if (should_play = '1') then
+				NoteOut <= "1100";
+			end if;
+		elsif (x_in >= keys_position(13)) then
+			if (should_play = '1') then
+				NoteOut <= "1101";
+			end if;
+		else
+			NoteOut <= "0000";
+		end if;               
+	end if;
+end if;
+end process;
 
 end Behavioral;
 

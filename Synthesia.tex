@@ -77,7 +77,7 @@
 				\item 			\textbf{Reset} - resetowanie procesu generowania fali piłokształtnej
 				\item			\textbf{Clk\_50MHz} - sygnał zegarowy
 			\end{itemize}
-		{\Large Wejścia:}
+		{\Large Wyjścia:}
 			\begin{itemize} 
 				\item 			\textbf{DATA} - wektor w zakresie od 0 do 4032 przesylany do modułu DAC\_Write
 				\item 						\textbf{T\_sync} - sygnał startu przesyłania
@@ -101,6 +101,7 @@
 									\lstinputlisting[language=VHDL, firstline=117, lastline=117,frame=single,tabsize=2]{SawtoothGenerator.vhd}
 			\end{itemize}
 		\subsection{Symulacja}
+		
 		\newpage
 	\section{Sterownik VGA}
 		\subsection{Symbol}
@@ -139,12 +140,44 @@
 		\subsection{FSM}
 		Graf i opis kodu
 		\subsection{Symulacja}
+		\newpage
 	\section{Synthesia}
 		\subsection{Symbol}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics{synthesia2.png}
+				\caption{Moduł zarządzający wyświetlaniem animacji oraz generowaniem melodii}
+			\end{figure}
 		\subsection{Porty}
+		{\Large Wejścia:}
+			\begin{itemize}	 
+				\item	\textbf{Clk\_50MHz} - sygnał zegarowy
+				\item \textbf{Reset} - resetowanie pracy modułu
+				\item 	\textbf{Pause} - wstrzymywanie wyświetlania animacji
+				\item \textbf{X, Y} - współrzędne aktualnie rysowanego punktu na ekranie
+			\end{itemize}
+		{\Large Wyjścia:}
+			\begin{itemize} 
+				\item 	\textbf{NoteOut} - wektor w zakresie od 0 do 13 odpowiadający za wysokość dźwięku do odtworzenia
+				\item 	\textbf{RGB} - wektor w zakresie od 0 do 7 odpowiadający za wyświetlany kolor
+			\end{itemize}
 		\subsection{Najważniejsze sygnały i procesy}
-		\subsection{FSM}
-		Graf i opis kodu
+		{\Large Sygnały:}
+			\begin{itemize}
+				\item \textbf{key\_position} - tablica elementów typu integer, przechowujących wartości pozycji horyzontalnej kolejnych dźwięków
+				\item \textbf{should\_play} - sygnał typu STD\_LOGIC, przechowujący informację o tym, czy należy odtwarzać melodię z syntezatora
+				\item \textbf{keys\_to\_display} - tablica elementów typu note - tablica 3 integerów - przechowujących kolejno: numer nuty, pozycję wertykalną graficznej reprezentacji dźwięku, wysokość graficznej reprezentacji dźwięku, jednocześnie odpowiadającą długości jego trwania
+			\end{itemize}
+		{\Large Procesy:}
+			\begin{itemize}
+			\item Proces odpowiedzialny rysowanie graficznej reprezentacji dźwięków na ekranie\\
+						\lstinputlisting[language=VHDL, firstline=134, lastline=180,frame=single,tabsize=2]{Synthesia.vhd}
+			\item Proces odpowiedzialny za animowanie graficznej reprezentacji melodii\\
+									\lstinputlisting[language=VHDL, firstline=182, lastline=194,frame=single,tabsize=2]{Synthesia.vhd}
+			\item Proces odpowiedzialny za wybranie odpowiedniego dźwięku do odtworzenia na podstawie animacji\\
+									\lstinputlisting[language=VHDL, firstline=196, lastline=257,frame=single,tabsize=2]{Synthesia.vhd}
+			\end{itemize}
+	
 		\subsection{Symulacja}
 	
 \chapter{Implementacja}
