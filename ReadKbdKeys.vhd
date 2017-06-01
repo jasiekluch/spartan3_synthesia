@@ -3,7 +3,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity ReadKbdKeys is
     Port ( DO : in  STD_LOGIC_VECTOR (7 downto 0);
-			  Reset : in STD_LOGIC;
+		   Reset : in STD_LOGIC;
            Clk_50MHz : in STD_LOGIC;
            DO_Rdy : in  STD_LOGIC;
            F0 : in  STD_LOGIC;
