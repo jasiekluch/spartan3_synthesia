@@ -29,6 +29,8 @@
 % do schowania napisu rozdzial n
 \usepackage{titlesec} 
 \titleformat{\chapter}[display]{\normalfont\bfseries}{}{0pt}{\Huge}
+% do dodawania listingów kodu
+\usepackage{listings}
 
 \title{\huge Układy Cyfrowe i Systemy Wbudowane 2\\Projekt Synthesia}
 \date{} % pusta data
@@ -55,42 +57,7 @@
 	\section{Algorytmy}
 
 \chapter{Projekt}
-	\section{Hierarchia}
-	Krótka proza
-		\subsection{Schemat}
-		\subsection{Submoduły}
-		
-\chapter{Moduły}
-	\section{Generator Dźwięku}
-		\subsection{Symbol}
-		\subsection{Porty}
-		\subsection{Najważniejsze sygnały i procesy}
-		\subsection{FSM}
-		Graf i opis kodu
-		\subsection{Symulacja}
-	\section{Sterownik VGA}
-		\subsection{Symbol}
-			\begin{figure}[h!]
-				\centering
-				\includegraphics{vgadriver2.png}
-				\caption{Moduł sterujący wyjciem VGA}
-			\end{figure}
-		\subsection{Porty}
-		\subsection{Najważniejsze sygnały i procesy}
-		\subsection{FSM}
-		Graf i opis kodu
-		\subsection{Symulacja}
-	\section{Przełącznik}
-		\subsection{Symbol}
-			\begin{figure}[h!]
-				\centering
-				\includegraphics{switch2.png}
-				\caption{Moduł Switch}
-			\end{figure}
-		\subsection{Porty}
-		\subsection{Najważniejsze sygnały i procesy}
-		\subsection{FSM}
-		Graf i opis kodu
+
 		\subsection{Symulacja}
 	\section{Czytnik kodów z klawiatury}
 		\subsection{Symbol}
@@ -100,6 +67,7 @@
 				\caption{Moduł czytający kody z klawiatury}
 			\end{figure}
 		\subsection{Porty}
+			\lstinputlisting[language=VHDL, firstline=4, lastline=11,frame=single]{ReadKbdKeys.vhd}
 		\subsection{Najważniejsze sygnały i procesy}
 		\subsection{FSM}
 		Graf i opis kodu
