@@ -47,3 +47,8 @@
 sch2HdlBatchFile
 *.bit
 *.xmsgs
+*.aux
+*.lot
+*.lof
+*.synctex.gz
+*.toc
