@@ -5,6 +5,8 @@
 \usepackage{polski}
 \usepackage[polish]{babel}
 
+\usepackage{ragged2e}
+
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
 \usepackage{lmodern}
@@ -102,7 +104,16 @@
 			\item Proces odpowiedzialny za zwrócenie wektora wyjściowego na najstarszych bitach, ze względu na moduł DAC\_Write, który odczytuje najstarsze bity\\
 				\lstinputlisting[language=VHDL, firstline=117, lastline=117,frame=single,tabsize=2]{SawtoothGenerator.vhd}
 			\end{itemize}
-		\subsection{Symulacja}
+		
+		\begin{landscape}
+			\subsection{Symulacja}
+				\begin{figure}[h!]
+					\centering
+					\includegraphics[width=1.6\textwidth]{sawtooth_generator_symulacja2.png}
+					\caption{Symulacja modułu SawtoothGenerator}
+				\end{figure}
+\justify Symulacja pokazuje zmianę zmiennej DATA polegającą na inkrementacji najstarszych 6 bitów wektora. Po osiągnięciu wartości maksymalnej - 4032,\\ licznik się zeruje. Wraz ze zmianą wartości wektora, generowany jest impuls T\_sync.
+		\end{landscape}
 		
 		\newpage
 	\section{Sterownik VGA}
