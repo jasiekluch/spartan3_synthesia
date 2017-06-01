@@ -78,37 +78,37 @@ begin
 
 	index <= to_integer( unsigned(Note));
 
-	-- Proces odpowiedzialny za licznik dzielacy czestotliwosc 
-	-- oraz za sygnal startu przesylania
-	process(Reset, Clk_50MHz)
-	begin
-		if (Reset = '1') then
-         tickCounter <= 0;
-         ts <= '0';
-		elsif (rising_edge(Clk_50MHz) and index /= 0) then
-         if (tickCounter >= pitch(index)) then
-            tickCounter <= 0;
-				ts <= '1';
-         else
-            tickCounter <= tickCounter + 1; 
-				ts <='0';
-         end if;
+-- Proces odpowiedzialny za licznik dzielacy czestotliwosc 
+-- oraz za sygnal startu przesylania
+process(Reset, Clk_50MHz)
+begin
+	if (Reset = '1') then
+		tickCounter <= 0;
+		ts <= '0';
+	elsif (rising_edge(Clk_50MHz) and index /= 0) then
+		if (tickCounter >= pitch(index)) then
+			tickCounter <= 0;
+			ts <= '1';
+		else
+			tickCounter <= tickCounter + 1; 
+			ts <='0';
 		end if;
-	end process;
-	
-	-- Proces odpowiedzialny za licznik pojedynczego przebiegu fali
-	process(Clk_50MHz, Reset)
-	begin
-		if (Reset = '1') then
+	end if;
+end process;
+
+-- Proces odpowiedzialny za licznik pojedynczego przebiegu fali
+process(Clk_50MHz, Reset)
+begin
+	if (Reset = '1') then
+		counter <= 0;
+	elsif rising_edge(Clk_50MHz) and tickCounter = pitch(index) then
+		if (counter = 63) then
 			counter <= 0;
-		elsif rising_edge(Clk_50MHz) and tickCounter = pitch(index) then
-			if (counter = 63) then
-				counter <= 0;
-			else
-				counter <= counter + 1;
-			end if;
-		end if; 
-	end process;
+		else
+			counter <= counter + 1;
+		end if;
+	end if; 
+end process;
 				
    T_sync <= ts;
 	
