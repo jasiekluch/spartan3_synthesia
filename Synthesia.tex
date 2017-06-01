@@ -56,7 +56,7 @@
 
 \chapter{Wstęp}
 	\section{Cel i zakres}
-	Celem projektu było zaimplementowanie gry $"$Synthesia$"$, pozwalającej na naukę gry na pianinie poprzez naciskanie odpowiednich klawiszy w zależności od wyświetlającej się na ekranie animacji, dzięki czemu odtwarzany był odpowiedni dźwięk gamy.\\
+	Celem projektu było zaimplementowanie gry $"$Synthesia$"$, pozwalającej na naukę gry na pianinie poprzez naciskanie odpowiednich klawiszy w zależności od wyświetlającej się na ekranie animacji, dzięki czemu odtwarzany byłby odpowiedni dźwięk gamy.\\
 	
 Początkowo zakres projektu obejmował:
 	\begin{enumerate}
@@ -80,15 +80,13 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 		\par Monitor został podłączony przy użyciu złącza D-SUB, 
 		klawiatura komputerowa przy pomocy złącza PS/2, natomiast brzęczyk został podłączony pod odpowiednie piny wyjścia DAC OUT. Aby ułatwić 
 		podłączanie brzęczyka do wyjścia DAC OUT ustawiony został odpowiedni sygnał sterujący pozwalający na przesłanie informacji na wszystkie 4 dostępne w tym 
-		złączu porty, dzięki czemu jeden z kabli od brzęczyka mógł być podłączony do dowolnego z wymienionych pinów: \textbf{A},
+		złączu piny sygnałowe, dzięki czemu jeden z kabli od brzęczyka mógł być podłączony do dowolnego z wymienionych pinów: \textbf{A},
 		\textbf{B}, \textbf{C} lub \textbf{D}. Natomiast drugi kabelek został podłączony do uziemienia(pin \textbf{GND}).
 
 \chapter{Projekt}
 	\section{Opis}
-	W projekcie zaimplementowano szereg modułów, co umożliwiło zarówno równoległą pracę nad nimi, \\jak również zmniejszyło odpowiedzialność i zależności między nimi. 
-	Podział ten zapewnił również \\większą
-	niezawodność całego układu oraz łatwość w lokalizowaniu ewentualnych błędów i 
-	usterek \\systemu.
+	W projekcie zaimplementowano szereg modułów, co umożliwiło zarówno równoległą pracę nad nimi, \\jak również rozdzielenie odpowiedzialności za konkretne funkcje systemu na konkretne moduły. 
+	Podział ten zapewnił również większą niezawodność całego układu oraz łatwość w lokalizowaniu 			ewentualnych błędów i usterek systemu.
 	\section{Hierarchia}
 		\begin{figure}[h!]
 			\centering
@@ -209,7 +207,7 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 				należy ustawić sygnał na portach \textbf{R}, \textbf{G} i \textbf{B}\\
 					\lstinputlisting[language=VHDL, firstline=103, lastline=121,frame=single,tabsize=2]{VGA_Driver.vhd}
 				\item Proces ustawiający na wyjściach \textbf{R}, \textbf{G} i \textbf{B} odpowiednie wartości z wektora wejściowego \textbf{RGB},
-				gdy działo elektronowe znajduje się w obszarze ekranu lub \textbf{'0'} w przeciwnym wypadku.\\
+				gdy działo elektronowe znajduje się w obszarze ekranu lub \textbf{'0'} w przeciwnym wypadku\\
 					\lstinputlisting[language=VHDL, firstline=124, lastline=135,frame=single,tabsize=2]{VGA_Driver.vhd}
 			\end{itemize}			
 			
@@ -413,10 +411,10 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 				\caption{Raport cz. 2}
 	\end{figure}	
 	
-	Częstotliwość maksymalna z jaką może pracować układ:
-	\textbf{~20 GHz}
+	Częstotliwość maksymalna z jaką może pracować układ to 
+	\textbf{\~20 GHz}
 	 
-	Maksymalne opóźnienie układu:
+	Maksymalne opóźnienie układu to
 	\textbf{0.204000 ns}
 	
 	
@@ -464,7 +462,7 @@ W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa
 	
 \chapter{Podsumowanie}
 	\section{Ocena krytyczna}
-	Pierwsza wersja założeń projektowych nie została wykonana ze względu na ograniczenia czasowe oraz zbyt dużą złożoność problemu zaplanowanej początkowo gry. Jednak wykonanie projektu zgodnie z \\nowymi założeniami jest dobrym wstępem do stworzenia pierwotnie zaplanowanej gry. Wszystkie nowsze założenia udało się spełnić. Podstawowe funkcje takie jak wyświetlanie animacji i odgrywanie melodii zapisanej w pamięci urządzenia, tryb swobodnej gry i możliwość swobodnego przechodzenia między tymi trybami zostały przetestowane zarówno przy pomocy testów w środowisku ModelSim, jak również manualnie w sali laboratoryjnej.
+	Pierwsza wersja założeń projektowych nie została wykonana ze względu na ograniczenia czasowe oraz zbyt dużą złożoność problemu zaplanowanej początkowo gry. Jednak wykonanie projektu zgodnie z \\nowymi założeniami jest dobrym wstępem do stworzenia pierwotnie zaplanowanej gry. Wszystkie nowe założenia udało się spełnić. Podstawowe funkcje takie jak wyświetlanie animacji i odgrywanie melodii zapisanej w pamięci urządzenia, tryb swobodnej gry i możliwość swobodnego przechodzenia między tymi trybami zostały przetestowane zarówno przy pomocy testów w środowisku ModelSim, jak również manualnie w sali laboratoryjnej.
 \\\\ Podczas tworzenia projektu, szczególna uwaga została przywiązana do stworzenia systemu rozszerzalnego o nowe funkcje. Stworzony został system zapisu dźwięków o zadanej długości. Generowane dźwięki można zmieniać definiując ich częstotliwość, ale również możliwe jest łatwe dodawanie nowych dźwięków do już istniejących.
 \\\\Pomimo tego, że nie udało się stworzyć gry, sama pozytywka odgrywająca melodię jednocześnie \\wyświetlając graficzną reprezentację melodii na ekranie wymagało dużego nakładu pracy i odpowiedniego podejścia do złączenia niezależnych elementów systemu w całość.
 	\section{Kierunki dalszych prac}
