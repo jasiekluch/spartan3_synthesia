@@ -56,10 +56,24 @@
 
 \chapter{Wstęp}
 	\section{Cel i zakres}
+	Celem projektu było zaimplementowanie gry $"$Synthesia$"$, pozwalającej na naukę gry na pianinie poprzez naciskanie odpowiednich klawiszy w zależności od wyświetlającej się na ekranie animacji, dzięki czemu odtwarzany był odpowiedni dźwięk gamy.\\
+	
+Początkowo zakres projektu obejmował:
+	\begin{enumerate}
+	\item Wyświetlanie animacji zapisanej w pamięci układu melodii
+	\item Kontrolowanie przebiegu gry poprzez odtwarzanie dźwięku, jeśli naciśnięty został odpowiedni klawisz zgodny z animacją
+	\item Kontrolowanie przebiegu gry poprzez zatrzymywanie animacji w przypadku naciśnięcia złego klawisza
+	\end{enumerate}
+	
+W trakcie wykonywania projektu jego zakres się zmienił, przez co jego końcowa wersja obejmuje:
+	\begin{enumerate}
+	\item Wyświetlanie animacji zapisanej melodii
+	\item Odgrywanie zapisanej  melodii, ściśle związanej z wyświetlaną animacją - pozytywka
+	\item Możliwość zmiany trybu na grę swobodną, co powodowało wyłączenie odtwarzania zapisanej melodii oraz wstrzymanie animacji, jednocześnie umożliwiając wygrywanie melodii przy użyciu klawiatury
+	\end{enumerate}
+	
+	Projekt z planowanej gry edukacyjnej został zmodyfikowany do pozytywki odtwarzającej zapisaną w pamięci układu melodią wraz z jej wizualizacją na ekranie oraz z możliwością tzw. $"$gry swobodnej$"$.
 	\section{Sprzęt}
-	\section{Protokoły}
-	\section{Interfejsy}
-	\section{Algorytmy}
 
 \chapter{Projekt}
 	\section{Hierarchia}
@@ -112,7 +126,7 @@
 					\includegraphics[width=1.6\textwidth]{sawtooth_generator_symulacja2.png}
 					\caption{Symulacja modułu SawtoothGenerator}
 				\end{figure}
-\justify Symulacja pokazuje zmianę zmiennej DATA polegającą na inkrementacji najstarszych 6 bitów wektora. Po osiągnięciu wartości maksymalnej - 4032,\\ licznik się zeruje. Wraz ze zmianą wartości wektora, generowany jest impuls T\_sync.
+\justify Symulacja pokazuje zmianę zmiennej DATA polegającą na inkrementacji najstarszych 6 bitów wektora. Po osiągnięciu wartości maksymalnej - 4032,\\ licznik jest zerowany. Wraz ze zmianą wartości wektora, generowany jest impuls T\_sync.
 		\end{landscape}
 		
 		\newpage
@@ -219,8 +233,15 @@
 			\item Proces odpowiedzialny za wybranie odpowiedniego dźwięku do odtworzenia na podstawie animacji\\
 									\lstinputlisting[language=VHDL, firstline=196, lastline=257,frame=single,tabsize=2]{Synthesia.vhd}
 			\end{itemize}
-	
+	\begin{landscape}
 		\subsection{Symulacja}
+		\begin{figure}[h!]
+					\centering
+					\includegraphics[width=1.6\textwidth]{synthesia_symulacja2.png}
+					\caption{Symulacja modułu Synthesia}
+				\end{figure}
+\justify Symulacja pokazuje wyświetlenie dolnej "belki", do która określa jaki dźwięk jest odgrywany. Belka ta wyświetlana jest dla wartości Y od 475 do 485, niezależnie od wartości zmiennej X.
+		\end{landscape}
 	
 \chapter{Implementacja}
 	\section{Rozmiar}
