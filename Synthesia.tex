@@ -13,6 +13,7 @@
 \usepackage{tabulary}
 % do wrzucania obrazów
 \usepackage{graphicx}
+\usepackage{float}
 % scieżka do folderu z plikami graficznymi
 \graphicspath{{./images/}}
 % do opisu tabel i rysunków
@@ -61,7 +62,6 @@
 	Krótka proza
 		\subsection{Schemat}
 		\subsection{Submoduły}
-
 \chapter{Moduły}
 	\section{Generator Dźwięku}
 		\subsection{Symbol}
@@ -100,9 +100,8 @@
 			\item Proces odpowiedzialny za zwrócenie wektora wyjściowego na najstarszych bitach, ze względu na moduł DAC\_Write, który odczytuje najstarsze bity\\
 									\lstinputlisting[language=VHDL, firstline=117, lastline=117,frame=single,tabsize=2]{SawtoothGenerator.vhd}
 			\end{itemize}
-		\subsection{FSM}
-		Graf i opis kodu
 		\subsection{Symulacja}
+		\newpage
 	\section{Sterownik VGA}
 		\subsection{Symbol}
 			\begin{figure}[h!]
